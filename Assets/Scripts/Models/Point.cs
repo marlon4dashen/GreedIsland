@@ -4,20 +4,31 @@ using UnityEngine;
 
 public class Point
 {
-    public int x;
-    public int y;
-    public bool accessible;
-    public string type;
+    private int x;
+    private int y;
 
-    public Point(int x, int y, string type){
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
-        this.type = type;
-        this.accessible = setAccess();
     }
 
-    private bool setAccess(){
-        return this.type == "land";
+    public int X{
+        get => x;
+        set => this.x = value;
     }
 
+    public int Y{
+        get => y;
+        set => this.y = value;
+    }
+
+    public override bool Equals(object obj) {
+        if (obj == null || GetType() != obj.GetType()) return false;
+        Point p = obj as Point;
+        return this.x == p.X && this.y == p.Y;
+    }
+
+    public override int GetHashCode(){
+        return (this.x * 10 + this.y).GetHashCode();
+    }
 }

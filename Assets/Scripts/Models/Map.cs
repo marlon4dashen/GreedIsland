@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 
@@ -7,25 +8,43 @@ public class Map
 {
     private int width;
     private int height;
-    private Point[,] tileArray;
+    private Node[,] tileArray;
+    private HashSet<Point> water;
 
-    public Map(int width, int height ) {
+    public Map(int width, int height, int numWater) {
 
         this.width = width;
         this.height = height;
-        tileArray = new Point[height, width];
-        // this.water = generateWater
+        tileArray = new Node[height, width];
+        this.water = generateWater(numWater);
         // this.box = 
         for ( var i = 0; i < height; i ++) {
             for ( var j = 0; j < width; j ++){
-                tileArray[i, j] = new Point(i, j,  "land");
+                if (this.water.Contains(new Point(i, j))){
+                    tileArray[i, j] = new Node(i, j, "water");
+                }else {
+                    tileArray[i, j] = new Node(i, j,  "land");
+                }
             }
         }
     }
 
-    // private List<Point> generateWater
+    private HashSet<Point> generateWater(int num) {
+        var set = new HashSet<Point>();
+        System.Random rnd = new System.Random();
+        for (var i = 0; i < num; i++) {
+            Point p; 
+            do {
+                int x = rnd.Next(2, this.height - 2);
+                int y = rnd.Next(2, this.width - 2);
+                p = new Point(x, y);
+            }while(set.Contains(p));
+            set.Add(p);
+        }
+        return set;
+    }
 
-    public Point[,] points {
+    public Node[,] nodes {
         get => tileArray;
     }
 
