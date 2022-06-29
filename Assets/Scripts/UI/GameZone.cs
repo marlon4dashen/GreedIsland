@@ -15,7 +15,7 @@ public class GameZone : MonoBehaviour
         _gameZoneTilemap = GetComponent<Tilemap>();
         _tilesHolder = GetComponent<TilesHolder>();
         _gameData = FindObjectOfType<GameData>();
-        _map = new Map(15, 5);
+        _map = new Map(10, 10, 15);
     }
 
     void Start(){
@@ -29,8 +29,7 @@ public class GameZone : MonoBehaviour
         for (var h = 0; h < height; h++) {
             for (var w = 0; w < width; w++){
                 _gameZoneTilemap.SetTile(currentCellPosition,
-                _tilesHolder.GetLandTile());
-                Debug.Log(h + " " + w);
+                _tilesHolder.GetTileByName(_map.nodes[h, w].type));
                 currentCellPosition = new Vector3Int(
                     (int) (cellSize.x + currentCellPosition.x),
                     currentCellPosition.y, origin.z);
@@ -41,7 +40,6 @@ public class GameZone : MonoBehaviour
         _gameZoneTilemap.CompressBounds();
 
     }
-
     void Update()
     {
 
