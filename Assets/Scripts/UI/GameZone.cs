@@ -39,11 +39,11 @@ public class GameZone : MonoBehaviour
         }
 
         _gameZoneTilemap.CompressBounds();
-    
+
     }
 
     void Update()
     {
-        
+
     }
 }
