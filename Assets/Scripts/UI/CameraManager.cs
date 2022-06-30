@@ -24,12 +24,13 @@ public class CameraManager : MonoBehaviour
     }
 
     public void ModifyCamera(int width){
-        var modifier = (width - 2) * CameraPositionModifier;
+        //standardize to a 15 by 15 tilemap
+        var modifier = (width / 3) * CameraPositionModifier;
         _camera.transform.position = new Vector3(
-            _camera.transform.position.x + modifier - 1,
+            _camera.transform.position.x + modifier,
             _camera.transform.position.y - modifier,
             _camera.transform.position.z
         );
-        _camera.orthographicSize = Mathf.Pow(CameraSizeModifier, (width - 8)) * _camera.orthographicSize;
+        _camera.orthographicSize = Mathf.Pow(CameraSizeModifier, (width / 3.5f)) * _camera.orthographicSize;
     }
 }
