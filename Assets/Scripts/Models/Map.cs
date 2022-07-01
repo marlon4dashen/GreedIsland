@@ -43,30 +43,35 @@ public class Map
             new Vector2Int(0, 1), new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, -1)
         };
         
-        var heads = new List<Node>();
-        var steps = new List<Node>();
+        var heads = new HashSet<Node>();
+        var steps = new HashSet<Node>();
 
         for (int i = 0; i < numOfHeads; i++){
 
             int headX;
             int headY;
             do {
-                headX = rnd.Next(2, this.height);
-                headY = rnd.Next(0, this.width);
-            }while(water.Contains(new Node(headX, headY, 3, "land"))); //make sure no land is built on water
+                var leftOrRight = rnd.Next(0, 2);
+                headX = leftOrRight == 0 ? rnd.Next(0, this.height) : this.height - 1;
+                headY = leftOrRight == 0 ? this.width - 1 : rnd.Next(0, this.width);
+            }while(heads.Contains(new Node(headX, headY, 3, "land"))); //make sure no head is already taken
 
-            int varSteps = rnd.Next(0, 5);
-
-            for (int j = 0; j < varSteps; j++){
-                if (dirs[j].x + headX >= 0 && dirs[j].x + headX < this.height && dirs[j].y + headY >= 0 && dirs[j].y + headY < this.width){
-                    var newStep = new Node(dirs[j].x + headX, dirs[j].y + headY, 2, "land"); // 2 represents step layer
-                    if (!water.Contains(newStep)){
-                        steps.Add(newStep);
-                        overlayLocations.Remove(newStep); //remove the same object with lower z
-                        overlayLocations.Add(newStep); // add back the same node with higher z
+            for (int w = 1; w < (int) (this.width / 4); w++){
+                for (int j = 0; j < 4; j++){
+                    int exist = rnd.Next(0, 2);
+                    int deltaX = dirs[j].x * w;
+                    int deltaY = dirs[j].y * w;
+                    if (deltaX + headX >= 0 && deltaX + headX < this.height && deltaY + headY >= 0 && deltaY + headY < this.width && exist == 1){
+                        var newStep = new Node(deltaX + headX, deltaY + headY, 2, "land"); // 2 represents step layer
+                        if (!steps.Contains(newStep) && !heads.Contains(newStep) && !water.Contains(newStep)){
+                            steps.Add(newStep);
+                            overlayLocations.Remove(newStep); //remove the same object with lower z
+                            overlayLocations.Add(newStep); // add back the same node with higher z
+                        }
                     }
                 }
             }
+
 
             var newHead = new Node(headX, headY, 3, "land"); // 3 represents head layer
             steps.Add(new Node(headX, headY, 2, "land"));
@@ -77,8 +82,8 @@ public class Map
             // TODO: set access
         }
 
-        tileArray.Add(2, steps);
-        tileArray.Add(3, heads);
+        tileArray.Add(2, steps.ToList());
+        tileArray.Add(3, heads.ToList());
     }
 
     // private void generateBlocks(){
