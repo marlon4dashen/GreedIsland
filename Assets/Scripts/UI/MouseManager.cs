@@ -40,7 +40,6 @@ public class MouseManager : MonoBehaviour
                 } else
                 {
                     path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
-                    Debug.Log(path.Count);
                     overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
                 }
             }
@@ -82,7 +81,7 @@ public class MouseManager : MonoBehaviour
 
     private void PositionCharacterOnTile(OverlayTile tile)
     {
-        minion.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y+0.0001f, tile.transform.position.z);
+        minion.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y+0.0001f, tile.transform.position.z+1);
         minion.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
         minion.standingOnTile = tile;
     }
