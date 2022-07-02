@@ -29,6 +29,14 @@ public class Point
         set => this.z = value;
     }
 
+    public Vector3Int GetPos(){
+        return new Vector3Int(this.X, this.Y, this.Z);
+    }
+
+    public Vector2Int GetPos2d() {
+        return new Vector2Int(this.X, this.Y);
+    }
+
     public override bool Equals(object obj) {
         if (obj == null || GetType() != obj.GetType()) return false;
         Point p = obj as Point;

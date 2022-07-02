@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 public class Map
@@ -12,10 +13,16 @@ public class Map
     private Dictionary<int, List<Node>> tileArray; //int = z; 
     private HashSet<Node> overlayLocations;
     private System.Random rnd;
+    private Vector3Int origin;
+    private Vector3 cellSize;
 
-    public Map(int width, int height) {
+    public Map(int width, int height, Tilemap tilemap) {
         overlayLocations = new HashSet<Node>();
         rnd = new System.Random();
+
+        origin = tilemap.origin;
+        cellSize = tilemap.cellSize;
+
         this.width = width;
         this.height = height;
         tileArray = new Dictionary<int, List<Node>>();
@@ -24,7 +31,7 @@ public class Map
         var baseArr = new List<Node>();
         for ( var i = 0; i < height; i ++) {
             for ( var j = 0; j < width; j ++){
-                var newLand = new Node(i, j, 1, "land"); //Base land renders second
+                var newLand = new Node(GetXOnMap(i), GetYOnMap(j), 1, "land"); //Base land renders second
                 if (!water.Contains(newLand)) {
                     baseArr.Add(newLand);
                     overlayLocations.Add(newLand);
@@ -54,7 +61,7 @@ public class Map
                 var leftOrRight = rnd.Next(0, 2);
                 headX = leftOrRight == 0 ? rnd.Next(0, this.height) : this.height - 1;
                 headY = leftOrRight == 0 ? this.width - 1 : rnd.Next(0, this.width);
-            }while(heads.Contains(new Node(headX, headY, 3, "land"))); //make sure no head is already taken
+            }while(heads.Contains(new Node(GetXOnMap(headX), GetYOnMap(headY), 3, "land"))); //make sure no head is already taken
 
             for (int w = 1; w < (int) (this.width / 4); w++){
                 for (int j = 0; j < 4; j++){
@@ -62,7 +69,7 @@ public class Map
                     int deltaX = dirs[j].x * w;
                     int deltaY = dirs[j].y * w;
                     if (deltaX + headX >= 0 && deltaX + headX < this.height && deltaY + headY >= 0 && deltaY + headY < this.width && exist == 1){
-                        var newStep = new Node(deltaX + headX, deltaY + headY, 2, "land"); // 2 represents step layer
+                        var newStep = new Node(GetXOnMap(deltaX + headX), GetYOnMap(deltaY + headY), 2, "land"); // 2 represents step layer
                         if (!steps.Contains(newStep) && !heads.Contains(newStep) && !water.Contains(newStep)){
                             steps.Add(newStep);
                             overlayLocations.Remove(newStep); //remove the same object with lower z
@@ -73,8 +80,8 @@ public class Map
             }
 
 
-            var newHead = new Node(headX, headY, 3, "land"); // 3 represents head layer
-            steps.Add(new Node(headX, headY, 2, "land"));
+            var newHead = new Node(GetXOnMap(headX), GetYOnMap(headY), 3, "land"); // 3 represents head layer
+            steps.Add(new Node(GetXOnMap(headX), GetYOnMap(headY), 2, "land"));
             heads.Add(newHead);
             overlayLocations.Remove(newHead); //remove the same object with lower z
             overlayLocations.Add(newHead); // add back the same node with higher z
@@ -118,13 +125,21 @@ public class Map
         for (int x = startX; x <= endX; x++){
             for (int y = startY; y <= endY; y++){
                 int z = 0; //water renders on lowest level;
-                Node a = new Node(x, y, z, "water");
+                Node a = new Node(GetXOnMap(x), GetYOnMap(y), z, "water");
                 a.Access = false;
                 set.Add(a);
             }
         }
 
         return set;
+    }
+
+    private int GetXOnMap(int x){
+        return (int) (this.cellSize.x * x + (float) this.origin.x);
+    }
+
+    private int GetYOnMap(int y){
+        return y * (int) (Math.Ceiling(this.cellSize.y)) + this.origin.y;
     }
 
     public Dictionary<int, List<Node>> nodes {

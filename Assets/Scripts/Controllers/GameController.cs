@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     }
 
     void Start() {
-        _map = new Map(15, 15);
+        _map = new Map(15, 15, mapManager.Tilemap);
         int width = _map.Width;
         camManager.ModifyCamera(width);
         mapManager.init(_map);

@@ -15,7 +15,6 @@ public class PathFinder
         tilesToCheck.Add(start);
         while (tilesToCheck.Count > 0)
         {
-            Debug.Log(tilesToCheck.Count);
 
 
             OverlayTile currentTile = tilesToCheck.OrderBy(x => x.F).First();
@@ -24,12 +23,11 @@ public class PathFinder
 
             if(currentTile == end)
             {
-                // Debug.Log(start.gridLocation);
                 return GetFinishedList(start, end);
             }
 
             var neighbourTiles = GetNeightbourTiles(currentTile);
-            neighbourTiles.ForEach(tile => Debug.Log(tile.gridLocation));
+            // neighbourTiles.ForEach(tile => Debug.Log(tile.gridLocation));
             foreach (var neighbour in neighbourTiles)
             {
                 if(neighbour.isBlocked || checkedTiles.Contains(neighbour) || Mathf.Abs(currentTile.gridLocation.z - neighbour.gridLocation.z) > 1)
@@ -68,7 +66,6 @@ public class PathFinder
         }
 
         finishedList.Reverse();
-        // Debug.Log(finishedList);
 
         return finishedList;
     }

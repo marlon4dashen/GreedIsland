@@ -22,4 +22,5 @@ public class Node : Point
         this.type = type;
         this.accessible = true;
     }
+
 }
