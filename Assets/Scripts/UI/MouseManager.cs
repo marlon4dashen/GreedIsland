@@ -40,7 +40,6 @@ public class MouseManager : MonoBehaviour
                 } else
                 {
                     path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
-                    Debug.Log(path.Count);
                     overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
                 }
             }
