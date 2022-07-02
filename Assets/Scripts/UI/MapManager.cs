@@ -46,14 +46,6 @@ public class MapManager : MonoBehaviour
         var cellSize =  _gameZoneTilemap.cellSize;
         _gameZoneTilemap.ClearAllTiles();
         _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder = (int) SortingOrders.Base;
-        var currentCellPosition = origin;
-        for (var h = height - 1; h >= 0; h--) {
-            for (var w = width - 1; w >= 0; w--){
-                _gameZoneTilemap.SetTile(currentCellPosition,
-                _tilesHolder.GetTileByName(_map.nodes[h, w].type));
-                currentCellPosition = new Vector3Int(
-                    (int) (cellSize.x + currentCellPosition.x),
-                    currentCellPosition.y, origin.z);
         var nodeMap = _map.nodes;
         for (var z = nodeMap.Count - 1; z >= 0; z--){
             var nodelist = nodeMap[z];
