@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -20,5 +21,9 @@ public class GameController : MonoBehaviour
         int width = _map.Width;
         camManager.ModifyCamera(width);
         mapManager.init(_map);
+    }
+    
+    void LateUpdate() {
+        MouseController.startListen();
     }
 }

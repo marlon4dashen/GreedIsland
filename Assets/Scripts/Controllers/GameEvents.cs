@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GameEvents : MonoBehaviour
@@ -7,16 +8,22 @@ public class GameEvents : MonoBehaviour
 
     public static GameEvents current;
 
-    public 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private void Awake(){
+        current = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public event Action<Vector3> OnCursorEnter;
+
+    public void CursorEnter(Vector3 pos) {
+        if (OnCursorEnter != null) {
+            OnCursorEnter(pos);
+        }
+    }
+
+    public event Action OnCursorExit;
+    public void CursorExit() {
+        if (OnCursorExit != null) {
+            OnCursorExit();
+        }
     }
 }
