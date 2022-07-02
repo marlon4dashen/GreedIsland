@@ -29,6 +29,7 @@ public class PathFinder
             }
 
             var neighbourTiles = GetNeightbourTiles(currentTile);
+            neighbourTiles.ForEach(tile => Debug.Log(tile.gridLocation));
             foreach (var neighbour in neighbourTiles)
             {
                 if(neighbour.isBlocked || checkedTiles.Contains(neighbour) || Mathf.Abs(currentTile.gridLocation.z - neighbour.gridLocation.z) > 1)

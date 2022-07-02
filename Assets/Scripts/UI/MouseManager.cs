@@ -40,6 +40,8 @@ public class MouseManager : MonoBehaviour
                 } else
                 {
                     path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
+                    Debug.Log(minion.standingOnTile.gridLocation);
+                    Debug.Log(overlayTile.gridLocation);
                     overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
                 }
             }
@@ -53,7 +55,7 @@ public class MouseManager : MonoBehaviour
 
     private void MoveAlongPath(){
         var step = speed * Time.deltaTime;
-        var zIndex = path[0].transform.position.z;
+        var zIndex = path[0].transform.position.z + 2;
         minion.transform.position = Vector2.MoveTowards(minion.transform.position, path[0].transform.position, step);
         minion.transform.position = new Vector3(minion.transform.position.x, minion.transform.position.y, zIndex);
 

@@ -657,11 +657,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: 0b43e1a7-b25b-448d-9966-69aef6a624f6
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: GreedIsland
+  organizationId: eastcloud21
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
