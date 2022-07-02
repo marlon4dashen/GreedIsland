@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour
     private TilesHolder _tilesHolder;
     private GameData _gameData;
     private Map _map;
+    public Map map{ get => _map; }
     public OverlayTile overlayTilePrefab;
     public GameObject overlayContainer;
     public Dictionary<Vector2Int, OverlayTile> mapDict;
@@ -43,8 +44,8 @@ public class MapManager : MonoBehaviour
     private void DrawInitialMap(int width, int height){
         var origin =  _gameZoneTilemap.origin;
         var cellSize =  _gameZoneTilemap.cellSize;
-       _gameZoneTilemap.ClearAllTiles();
-       _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder = (int) SortingOrders.Base;
+        _gameZoneTilemap.ClearAllTiles();
+        _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder = (int) SortingOrders.Base;
         var currentCellPosition = origin;
         for (var h = height - 1; h >= 0; h--) {
             for (var w = width - 1; w >= 0; w--){
@@ -72,9 +73,9 @@ public class MapManager : MonoBehaviour
                     if (_gameZoneTilemap.HasTile(tileLocation) && !mapDict.ContainsKey(tileKey)){
                         var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
                         var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
-                        Debug.Log(overlayTile);
                         overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
                         overlayTile.GetComponent<SpriteRenderer>().sortingOrder = (int) SortingOrders.Overlay;
+                        overlayTile.gridLocation = tileLocation;
                         mapDict.Add(tileKey, overlayTile);
                     }
 

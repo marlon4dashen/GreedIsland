@@ -1702,6 +1702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb52902a71308145b4c595d1529ae66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 0}
+  speed: 0
+  minionPrefab: {fileID: 1650505855434006095, guid: 492ed0d3bcc2241ba9ac663986011312, type: 3}
 --- !u!212 &1718050515
 SpriteRenderer:
   m_ObjectHideFlags: 0
