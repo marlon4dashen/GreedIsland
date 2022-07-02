@@ -40,6 +40,7 @@ public class MapManager : MonoBehaviour
 
         DrawInitialMap(width, height);
         DrawOverlay();
+        Debug.Log(mapDict.Count);
     }
     private void DrawInitialMap(int width, int height){
         var origin =  _gameZoneTilemap.origin;
@@ -66,11 +67,13 @@ public class MapManager : MonoBehaviour
 
         foreach (var node in overlays) {
             var x = (int) (cellSize.x * node.X + (float) origin.x);
-            var tileLocation = new Vector3Int(x, node.Y * (int) (Math.Ceiling(cellSize.y)) + origin.y, (int)(origin.z + node.Z));
+            var y = node.Y * (int) (Math.Ceiling(cellSize.y)) + origin.y;
+            var tileLocation = new Vector3Int(x, y, (int)(origin.z + node.Z));
             var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
             var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
             overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
             overlayTile.GetComponent<SpriteRenderer>().sortingOrder = _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder;
+            mapDict.Add(new Vector2Int(x, y), overlayTile);
         }
     }
 
