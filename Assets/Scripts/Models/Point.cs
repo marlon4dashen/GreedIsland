@@ -6,10 +6,12 @@ public class Point
 {
     private int x;
     private int y;
+    private int z;
 
-    public Point(int x, int y) {
+    public Point(int x, int y, int z) {
         this.x = x;
         this.y = y;
+        this.z = z;
     }
 
     public int X{
@@ -20,6 +22,11 @@ public class Point
     public int Y{
         get => y;
         set => this.y = value;
+    }
+
+    public int Z{
+        get => z;
+        set => this.z = value;
     }
 
     public override bool Equals(object obj) {

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum SortingOrders : ushort
 {
-    Base = 0,
-    Overlay = 1,
-    Cursor = 2,
-    Character = 3
+    Water = 0,
+    Base = 1,
+    Overlay = 2,
+    Cursor = 3,
+    Character = 4
 }

@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
+public class Node : Point
 {
-    public Point point;
-    public bool accessible;
-    public string type;
+    private bool accessible;
+    private string type;
 
-    public Node(int x, int y, string type){
-        this.point = new Point(x, y);
+    public string Type {
+        get => type;
+    }
+
+    public bool Access {
+        get => accessible;
+        set => this.accessible = value;
+        
+    }
+
+    public Node(int x, int y, int z, string type) : base(x, y, z)
+    {
         this.type = type;
-        this.accessible = setAccess();
+        this.accessible = true;
     }
-
-    private bool setAccess(){
-        return this.type == "land";
-    }
-
 }

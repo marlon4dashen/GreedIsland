@@ -54,36 +54,32 @@ public class MapManager : MonoBehaviour
                 currentCellPosition = new Vector3Int(
                     (int) (cellSize.x + currentCellPosition.x),
                     currentCellPosition.y, origin.z);
+        var nodeMap = _map.nodes;
+        for (var z = nodeMap.Count - 1; z >= 0; z--){
+            var nodelist = nodeMap[z];
+            foreach(Node node in nodelist) {
+                var x = (int) (cellSize.x * node.X + (float) origin.x);
+                var currentCellPosition = new Vector3Int(x, node.Y * (int) (Math.Ceiling(cellSize.y)) + origin.y, (int)(origin.z + z)); // cellsize.y = 0.5, so math.ceiling gives the coordinate the next whole # (ps. unity sucks)
+                _gameZoneTilemap.SetTile(currentCellPosition, _tilesHolder.GetTileByName(node.Type));
             }
-            currentCellPosition = new Vector3Int(origin.x,(int)(Math.Ceiling(cellSize.y + currentCellPosition.y)), origin.z);
         }
-
         _gameZoneTilemap.CompressBounds();
     }
 
     private void DrawOverlay(){
         BoundsInt bounds = _gameZoneTilemap.cellBounds;
         var cellSize =  _gameZoneTilemap.cellSize;
+        var overlays = _map.overlays;
+        var origin =  _gameZoneTilemap.origin;
 
-        for (int z = bounds.max.z; z >= bounds.min.z; z--){
-            for (int y = bounds.min.y; y < bounds.max.y; y++ ){
-                for (int x = bounds.min.x; x < bounds.max.x; x++) {
-                    var tileKey = new Vector2Int(x, y);
-                    var tileLocation = new Vector3Int(x, y, z);
-                    if (_gameZoneTilemap.HasTile(tileLocation) && !mapDict.ContainsKey(tileKey)){
-                        var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
-                        var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
-                        overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
-                        overlayTile.GetComponent<SpriteRenderer>().sortingOrder = (int) SortingOrders.Overlay;
-                        overlayTile.gridLocation = tileLocation;
-                        mapDict.Add(tileKey, overlayTile);
-                    }
-
-
-                }
-            }
+        foreach (var node in overlays) {
+            var x = (int) (cellSize.x * node.X + (float) origin.x);
+            var tileLocation = new Vector3Int(x, node.Y * (int) (Math.Ceiling(cellSize.y)) + origin.y, (int)(origin.z + node.Z));
+            var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
+            var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
+            overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
+            overlayTile.GetComponent<SpriteRenderer>().sortingOrder = _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder;
         }
-
     }
 
 }
