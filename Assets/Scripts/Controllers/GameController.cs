@@ -10,13 +10,11 @@ public class GameController : MonoBehaviour
     private MapManager mapManager;
     private CameraManager camManager;
     private Character[] characterList;
-    private CharacterManager charaManager;
     private Map _map;
 
     private void Awake(){
         mapManager = MapManager.Instance;
         camManager = CameraManager.Instance;
-        charaManager = CharacterManager.Instance;
     }
 
     void Start() {
@@ -25,7 +23,6 @@ public class GameController : MonoBehaviour
         int width = _map.Width;
         camManager.ModifyCamera(width);
         mapManager.init(_map);
-
         //a list of prefab Instantiate()
         // var minion = new Character(0, 0, mapManager.Tilemap);
         // charaManager.init(character, mapManager.mapDict);

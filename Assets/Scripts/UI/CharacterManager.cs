@@ -5,14 +5,10 @@ using UnityEngine;
 public class CharacterManager : MonoBehaviour
 {
 
-    private CharacterManager _instance;
-    public CharacterManager instance {
+    private static CharacterManager _instance;
+    public static CharacterManager Instance {
         get => _instance;
     }
-    private Tilemap _tilemap;
-    private 
-
-    public Character[] characterList;
 
     private void Awake(){
         if(_instance != null && _instance != this){
@@ -22,17 +18,14 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    void Start() {
-        
+    public void init(Character[] characters){
+        foreach (var minion in characters){
+            minion.transform.position = new Vector3(minion.currentTile.transform.position.x, minion.currentTile.transform.position.y+0.0001f, (int) SortingOrders.Character);
+            minion.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
+        }
     }
 
-    void init(Character c, Dictionary<Vector2Int, OverlayTile> tilemap){
-        _tilemap = tilemap;
-        var charPos = c.Pos;
-        var charPos2d = new Vector2Int(charPos.x, charPos.y);
-
-        OverlayTile tile_pos = tilemap[charPos2d].transform.position;
-        var charPosOnMap = new Vector3(tile_pos.x, tile_pos.y+0.0001f,charPos.z);
-
+    public void moveAlongPath(Character c, List<OverlayTile> path){
+        return;
     }
 }
