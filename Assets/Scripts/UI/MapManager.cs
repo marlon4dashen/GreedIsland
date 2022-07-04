@@ -17,7 +17,6 @@ public class MapManager : MonoBehaviour
         get => _gameZoneTilemap;
     }
     private TilesHolder _tilesHolder;
-    private GameData _gameData;
     private Map _map;
     public Map map{ get => _map; }
     public OverlayTile overlayTilePrefab;
