@@ -4,16 +4,16 @@ using System;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
-    private Vector3Int gridLocation;
 
-    public Vector3Int Pos {
-        get => gridLocation;
-        set => gridLocation = value;
-    }
+    public OverlayTile currentTile;
+    public int atkDamage;
+    public int atkRange;
+    public int moveRange;
 
-    protected Character(int x, int y, Tilemap tilemap){
-    }
+    public int hp;
+    public int mana;
+
 
 }
