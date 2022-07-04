@@ -1,0 +1,17 @@
+<character>
+    <minion>
+        <name>Elf</name>
+        <x>0</x>
+        <y>0</y>
+    </minion>
+    <minion>
+        <name>Elf</name>
+        <x>1</x>
+        <y>0</y>
+    </minion>
+    <minion>
+        <name>Elf</name>
+        <x>3</x>
+        <y>2</y>
+    </minion>
+</character>

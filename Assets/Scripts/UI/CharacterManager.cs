@@ -18,10 +18,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void init(Character[] characters){
+    public void init(List<Character> characters){
         foreach (var minion in characters){
             minion.transform.position = new Vector3(minion.currentTile.transform.position.x, minion.currentTile.transform.position.y+0.0001f, (int) SortingOrders.Character);
-            minion.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
+            minion.GetComponent<SpriteRenderer>().sortingOrder = minion.currentTile.GetComponent<SpriteRenderer>().sortingOrder;
         }
     }
 

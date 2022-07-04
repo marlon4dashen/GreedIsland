@@ -14,7 +14,6 @@ public class CursorManager : MonoBehaviour
     private void DrawCursor(Vector3 pos){
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         transform.position = pos;
-        Debug.Log(pos);
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int) SortingOrders.Cursor;
     }
 
