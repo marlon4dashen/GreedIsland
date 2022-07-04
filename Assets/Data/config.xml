@@ -5,13 +5,13 @@
         <y>0</y>
     </minion>
     <minion>
-        <name>Elf</name>
-        <x>1</x>
-        <y>0</y>
+        <name>Farmer</name>
+        <x>8</x>
+        <y>12</y>
     </minion>
     <minion>
         <name>Elf</name>
-        <x>3</x>
-        <y>2</y>
+        <x>14</x>
+        <y>3</y>
     </minion>
 </character>

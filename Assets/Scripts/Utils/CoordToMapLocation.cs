@@ -22,5 +22,13 @@ public class CoordToMapLocation
         return y * (int) (Math.Ceiling(cellSize.y)) + origin.y;
     }
 
+    public static Vector2Int GetLocOnMap2d(Vector2Int pos){
+        return new Vector2Int(GetXOnMap(pos.x), GetYOnMap(pos.y));
+    }
+
+    public static Vector3Int GetLocOnMap(Vector3Int pos){
+        return new Vector3Int(GetXOnMap(pos.x), GetYOnMap(pos.y), pos.z);
+    }
+
 
 }

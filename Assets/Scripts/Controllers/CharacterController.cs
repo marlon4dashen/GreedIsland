@@ -21,18 +21,12 @@ public class CharacterController : MonoBehaviour
     private CharacterManager _charaManager;
 
     private void Awake(){
-        if(_instance != null && _instance != this){
-            Destroy(this.gameObject);
-        } else{
-            _instance = this;
-        }
+        _instance = this;
         _charaManager = CharacterManager.Instance;
+        minionList = new List<Character>();
         minionStrToObj = new Dictionary<string, Character>();
         minionStrToObj.Add("Elf", ElfPrefab);
-        foreach (KeyValuePair<string, Character> kvp in minionStrToObj){
-            Debug.Log(kvp.Key);
-           
-        }
+        minionStrToObj.Add("Farmer", farmerPrefab);
     }
 
 
@@ -43,10 +37,11 @@ public class CharacterController : MonoBehaviour
             int x = CoordToMapLocation.GetXOnMap(Int32.Parse(minionInfo["xPos"]));
             int y = CoordToMapLocation.GetYOnMap(Int32.Parse(minionInfo["yPos"]));
             var loc =  new Vector2Int(x, y);
-            Debug.Log(name);
+            
             var minionPrefab = minionStrToObj[name];
             var init_tile = mapDict[loc];
             var minion = Instantiate(minionPrefab, minionContainer.transform);
+            
             minion.currentTile = init_tile;
             minionList.Add(minion);
         }

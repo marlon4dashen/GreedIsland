@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8964113069944850408}
   - component: {fileID: 2957875356831853475}
   - component: {fileID: 7358731272996105398}
-  - component: {fileID: 1037134193736094545}
   m_Layer: 0
   m_Name: Elf
   m_TagString: Untagged
@@ -104,23 +103,3 @@ MonoBehaviour:
   moveRange: 0
   hp: 0
   mana: 0
---- !u!95 &1037134193736094545
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886972943605372256}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d402bf9497a23ff4eb9d4894f904c2ad, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

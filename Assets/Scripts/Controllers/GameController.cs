@@ -11,13 +11,13 @@ public class GameController : MonoBehaviour
     private CameraManager camManager;
 
     private CharacterController charaController;
-    private Character[] characterList;
     private Map _map;
 
     private void Awake(){
         mapManager = MapManager.Instance;
         camManager = CameraManager.Instance;
         charaController = CharacterController.Instance;
+        Debug.Log(charaController);
         ConfigHandler.init();
         CoordToMapLocation.init(mapManager.Tilemap);
     }
@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
         mapManager.init(_map);
 
         var minionsData = ConfigHandler.readConfig();
+        Debug.Log(charaController);
         charaController.positionMinions(minionsData, mapManager.mapDict);
         //a list of prefab Instantiate()
         // var minion = new Character(0, 0, mapManager.Tilemap);

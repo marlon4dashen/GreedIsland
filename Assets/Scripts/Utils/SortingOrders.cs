@@ -8,5 +8,5 @@ public enum SortingOrders : ushort
     Base = 1,
     Overlay = 2,
     Cursor = 3,
-    Character = 4
+    Character = 5
 }

@@ -53,7 +53,7 @@ public class MapManager : MonoBehaviour
         for (var z = nodeMap.Count - 1; z >= 0; z--){
             var nodelist = nodeMap[z];
             foreach(Node node in nodelist) {
-                _gameZoneTilemap.SetTile(node.GetPos(), _tilesHolder.GetTileByName(node.Type));
+                _gameZoneTilemap.SetTile(CoordToMapLocation.GetLocOnMap(node.GetPos()), _tilesHolder.GetTileByName(node.Type));
             }
         }
         _gameZoneTilemap.CompressBounds();
@@ -66,12 +66,12 @@ public class MapManager : MonoBehaviour
         var origin =  _gameZoneTilemap.origin;
 
         foreach (var node in overlays) {
-            var tileLocation = node.GetPos();
+            var tileLocation = CoordToMapLocation.GetLocOnMap(node.GetPos());
             var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
             var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
             overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
             overlayTile.GetComponent<SpriteRenderer>().sortingOrder = _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder;
-            var tilePos2d = node.GetPos2d();
+            var tilePos2d = CoordToMapLocation.GetLocOnMap2d(node.GetPos2d());
             overlayTile.gridLocation = tileLocation;
             mapDict.Add(tilePos2d, overlayTile);
         }
