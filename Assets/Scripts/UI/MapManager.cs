@@ -38,8 +38,11 @@ public class MapManager : MonoBehaviour
 
     public void init(Map gameMap, GameEvents currentEvents){
         _map = gameMap;
+
+        //add events
         events = currentEvents;
         events.OnSelectCharacter += ShowSelectedTile;
+        events.OnDeselect += HideSelectedTile;
         int width = _map.Width;
         int height = _map.Height;
 

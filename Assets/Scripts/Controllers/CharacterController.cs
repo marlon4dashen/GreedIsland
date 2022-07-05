@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour
 
     public Farmer farmerPrefab;
     public Elf ElfPrefab;
+    public GraveDigger graveDiggerPrefab;
     public Character currentMinion;
     public bool isMoving;
 
@@ -34,6 +35,7 @@ public class CharacterController : MonoBehaviour
         minionStrToObj = new Dictionary<string, Character>();
         minionStrToObj.Add("Elf", ElfPrefab);
         minionStrToObj.Add("Farmer", farmerPrefab);
+        minionStrToObj.Add("GraveDigger", graveDiggerPrefab);
         pathFinder = new PathFinder();
         path = new List<OverlayTile>();
         isMoving = false;
@@ -43,6 +45,7 @@ public class CharacterController : MonoBehaviour
         _charaManager = CharacterManager.Instance;
         events = currentEvents;
         events.OnCharacterMove += moveMinion;
+        events.OnSelectCharacter += selectMinion;
     }
 
 
@@ -65,17 +68,17 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void selectMinion(){
-        
+    public void selectMinion(OverlayTile selected){
+        currentMinion = minionLocations[selected];
     }
 
-    public void moveMinion(OverlayTile start, OverlayTile destination){
+    public void moveMinion(OverlayTile destination){
+        var start = currentMinion.currentTile;
         if (path.Count == 0){
             path = pathFinder.FindPath(start, destination);
         }
-        currentMinion = minionLocations[start];
         isMoving = true;
-        minionLocations.Remove(start);
+        minionLocations.Remove(currentMinion.currentTile);
         minionLocations.Add(destination, currentMinion);
     }
 

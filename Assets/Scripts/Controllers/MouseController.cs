@@ -39,17 +39,16 @@ public class MouseController : MonoBehaviour
                 } else if (selectedTile != null){
 
                     if (charaController.checkCharacterOnTile(currentTile)) {
-                        // attack or ability or whatever
+                        // attack or ability or select another minion on your team
+                        // for now only select another minion
+                        clearSelected();
+                        selectedTile = currentTile;
+                        events.SelectCharacter(selectedTile);
                     } else {
                         // move to a location
-                        events.CharacterMove(selectedTile, currentTile);
-                        selectedTile = null;
+                        events.CharacterMove(currentTile);
+                        clearSelected();
                     }
-                    // selectedTile = overlayTile;
-                    // overlayTile.GetComponent<OverlayTile>().ShowTile();
-                    // path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
-                    // Debug.Log(minion.standingOnTile.gridLocation);
-                    // overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
                 }
             }
 
@@ -61,6 +60,12 @@ public class MouseController : MonoBehaviour
             charaController.continuePath();
         }
     }
+
+    public void clearSelected(){
+        events.Deselect(selectedTile);
+        selectedTile = null;
+    }
+    
 
     public RaycastHit2D? GetFocusedOnTile(){
 
