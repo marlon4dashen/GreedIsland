@@ -23,6 +23,7 @@ public class MouseController : MonoBehaviour
     public void init(CharacterController characterController, GameEvents currentEvent){
         charaController = characterController;
         events = currentEvent;
+        events.OnDeselect += clearSelected;
     }
 
     // Update is called once per frame
@@ -41,13 +42,13 @@ public class MouseController : MonoBehaviour
                     if (charaController.checkCharacterOnTile(currentTile)) {
                         // attack or ability or select another minion on your team
                         // for now only select another minion
-                        clearSelected();
+                        events.Deselect();
                         selectedTile = currentTile;
                         events.SelectCharacter(selectedTile);
                     } else {
                         // move to a location
                         events.CharacterMove(currentTile);
-                        clearSelected();
+                        events.Deselect();
                     }
                 }
             }
@@ -62,7 +63,6 @@ public class MouseController : MonoBehaviour
     }
 
     public void clearSelected(){
-        events.Deselect(selectedTile);
         selectedTile = null;
     }
     

@@ -15,5 +15,15 @@ public abstract class Character : MonoBehaviour
     public int hp;
     public int mana;
 
+    public int moveLeft;
+    public int attackLeft;
+    public int abilityLeft;
+
+    public void resetMoves() {
+        this.moveLeft = 1;
+        this.attackLeft = 1;
+        this.abilityLeft = 1;
+    }
+
 
 }
