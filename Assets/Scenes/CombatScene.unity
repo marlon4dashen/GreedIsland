@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c12e9989e0f8d6b458b95928be65b7e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   overlayTilePrefab: {fileID: 7558631521345856724, guid: 9ba63a501a33d924182126ef2143aa1a, type: 3}
   overlayContainer: {fileID: 2055060980}
 --- !u!1 &405034043
@@ -227,8 +227,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31aef90c2f38f3d4182cb698e2b23714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!483693784 &405034047
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -1528,8 +1528,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd41b3b662edd694798976d75f5addf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!212 &484669529
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1692,8 +1692,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ecbad481f37cff4491da0e66d7964d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &726411847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,8 +1721,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d775fed79e8d44083fe0a4b0e00184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!4 &726411849
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,8 +1833,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 275c84cdc13cfb84db81e5ceb26124ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &1016590310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,8 +1893,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fda60f8be6015a34da55eeb92281bc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   farmerPrefab: {fileID: 5402673828358001436, guid: 76691a84da68f814c9b730819e8b4c2d, type: 3}
   ElfPrefab: {fileID: 7358731272996105398, guid: 2cd858b114c04034c8a661f555666350, type: 3}
   graveDiggerPrefab: {fileID: 7709814872143453292, guid: 80cc2a6e0d36fd241afffa98d3559c59, type: 3}
@@ -1958,8 +1958,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1066e8d5c23ab5b40997e8e499f549c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &1499638075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,8 +1987,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6aafc8cb62846e47a31fc4a4c7fc291, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!4 &1499638077
 Transform:
   m_ObjectHideFlags: 0
@@ -2077,5 +2077,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9bdb754664f1c14b809808903aa3989, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
