@@ -29,7 +29,6 @@ public class CharacterController : MonoBehaviour
 
     private void Awake(){
         _instance = this;
-        _charaManager = CharacterManager.Instance;
         minionList = new List<Character>();
         minionLocations = new Dictionary<OverlayTile, Character>();
         minionStrToObj = new Dictionary<string, Character>();
@@ -41,6 +40,7 @@ public class CharacterController : MonoBehaviour
     }
 
     public void init(GameEvents currentEvents){
+        _charaManager = CharacterManager.Instance;
         events = currentEvents;
         events.OnCharacterMove += moveMinion;
     }

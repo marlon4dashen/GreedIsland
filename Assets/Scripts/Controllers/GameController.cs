@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     private GameEvents gameEvents;
     private Map _map;
 
-    private void Awake(){
+    void Start() {
         mapManager = MapManager.Instance;
         camManager = CameraManager.Instance;
         charaController = CharacterController.Instance;
@@ -25,9 +25,6 @@ public class GameController : MonoBehaviour
         mouseController.init(charaController, gameEvents);
         ConfigHandler.init();
         CoordToMapLocation.init(mapManager.Tilemap);
-    }
-
-    void Start() {
         _map = new Map(15, 15);
         int width = _map.Width;
         camManager.ModifyCamera(width);
