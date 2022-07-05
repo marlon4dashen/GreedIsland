@@ -21,6 +21,10 @@ public class CharacterController : MonoBehaviour
     private List<OverlayTile> path;
 
     private static CharacterController _instance;
+
+    private Rigidbody2D rb;
+
+
     public static CharacterController Instance {
         get { return _instance; }
     }
@@ -39,6 +43,11 @@ public class CharacterController : MonoBehaviour
         isMoving = false;
     }
 
+    private void Start() {
+        rb = GetComponent<Rigidbody2D>();
+
+    }
+
     public void init(GameEvents currentEvents){
         _charaManager = CharacterManager.Instance;
         events = currentEvents;
@@ -47,13 +56,13 @@ public class CharacterController : MonoBehaviour
 
 
     public void positionMinions(List<Dictionary<string, string>> minionsInfo, Dictionary<Vector2Int, OverlayTile> mapDict) {
-        
+
         foreach (Dictionary<string, string> minionInfo in minionsInfo) {
             string name = minionInfo["name"];
             int x = CoordToMapLocation.GetXOnMap(Int32.Parse(minionInfo["xPos"]));
             int y = CoordToMapLocation.GetYOnMap(Int32.Parse(minionInfo["yPos"]));
             var loc =  new Vector2Int(x, y);
-            
+
             var minionPrefab = minionStrToObj[name];
             var init_tile = mapDict[loc];
             var minion = Instantiate(minionPrefab, minionContainer.transform);
@@ -66,7 +75,7 @@ public class CharacterController : MonoBehaviour
     }
 
     public void selectMinion(){
-        
+
     }
 
     public void moveMinion(OverlayTile start, OverlayTile destination){
@@ -80,7 +89,7 @@ public class CharacterController : MonoBehaviour
     }
 
     public void continuePath() {
-        
+
         //move minion along the path toward next available tile
         if (_charaManager.MoveToTile(currentMinion, path[0])){
             var tile = path[0];

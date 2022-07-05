@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmerPrefab: {fileID: 5402673828358001436, guid: 76691a84da68f814c9b730819e8b4c2d, type: 3}
-  ElfPrefab: {fileID: 7358731272996105398, guid: 2cd858b114c04034c8a661f555666350, type: 3}
+  ElfPrefab: {fileID: 9110813403077827485, guid: 4733c128895d34b3f915976a862df484, type: 3}
   currentMinion: {fileID: 0}
   isMoving: 0
   minionContainer: {fileID: 1410931624}
