@@ -53,7 +53,7 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void init(GameEvents currentEvents){
+    public void init(GameEvents currentEvents, MapManager mapManager){
         _charaManager = CharacterManager.Instance;
         _mapManager = mapManager;
         events = currentEvents;
