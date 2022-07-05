@@ -7,36 +7,62 @@ using System.Linq;
 public class MouseController : MonoBehaviour
 {
 
+    private static MouseController _instance;
+    public static MouseController Instance {
+        get => _instance;
+    }
+    private CharacterController charaController;
+    private OverlayTile selectedTile;
+    private GameEvents events;
+
+    private void Awake(){
+        _instance = this;
+    }
+
+
+    public void init(CharacterController characterController, GameEvents currentEvent){
+        charaController = characterController;
+        events = currentEvent;
+    }
+
     // Update is called once per frame
-    public static void startListen()
+    public void startListen()
     {
         var focusedTileHit = GetFocusedOnTile();
         if (focusedTileHit.HasValue){
-            OverlayTile overlayTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
-            GameEvents.current.CursorEnter(overlayTile.transform.position);
-            // if (Input.GetMouseButtonDown(0)){
-            //     overlayTile.GetComponent<OverlayTile>().ShowTile();
+            OverlayTile currentTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
+            GameEvents.current.CursorEnter(currentTile.transform.position);
+            if (Input.GetMouseButtonDown(0) && !charaController.isMoving){
+                if (selectedTile == null && charaController.checkCharacterOnTile(currentTile)) {
+                    selectedTile = currentTile;
+                    events.SelectCharacter(selectedTile);
+                } else if (selectedTile != null){
 
-            //     if (minion == null)
-            //     {
-            //         minion = Instantiate(minionPrefab).GetComponent<CharacterInfo>();
-            //         PositionCharacterOnTile(overlayTile);
-            //         minion.standingOnTile = overlayTile;
-            //     } else
-            //     {
-            //         path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
-            //         Debug.Log(minion.standingOnTile.gridLocation);
-            //         Debug.Log(overlayTile.gridLocation);
-            //         overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
-            //     }
-            // }
+                    if (charaController.checkCharacterOnTile(currentTile)) {
+                        // attack or ability or whatever
+                    } else {
+                        // move to a location
+                        events.CharacterMove(selectedTile, currentTile);
+                        selectedTile = null;
+                    }
+                    // selectedTile = overlayTile;
+                    // overlayTile.GetComponent<OverlayTile>().ShowTile();
+                    // path = pathFinder.FindPath(minion.standingOnTile, overlayTile);
+                    // Debug.Log(minion.standingOnTile.gridLocation);
+                    // overlayTile.gameObject.GetComponent<OverlayTile>().HideTile();
+                }
+            }
 
         }else{
             GameEvents.current.CursorExit();
         }
+
+        if (charaController.isMoving) {
+            charaController.continuePath();
+        }
     }
 
-    public static RaycastHit2D? GetFocusedOnTile(){
+    public RaycastHit2D? GetFocusedOnTile(){
 
         Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);

@@ -11,33 +11,32 @@ public class GameController : MonoBehaviour
     private CameraManager camManager;
 
     private CharacterController charaController;
+    private MouseController mouseController;
+    private GameEvents gameEvents;
     private Map _map;
 
     private void Awake(){
         mapManager = MapManager.Instance;
         camManager = CameraManager.Instance;
         charaController = CharacterController.Instance;
-        Debug.Log(charaController);
+        mouseController = MouseController.Instance;
+        gameEvents = GameEvents.current;
+        charaController.init(gameEvents);
+        mouseController.init(charaController, gameEvents);
         ConfigHandler.init();
         CoordToMapLocation.init(mapManager.Tilemap);
     }
 
     void Start() {
-        _map = new Map(15, 15, mapManager.Tilemap);
-
+        _map = new Map(15, 15);
         int width = _map.Width;
         camManager.ModifyCamera(width);
-        mapManager.init(_map);
-
+        mapManager.init(_map, gameEvents);
         var minionsData = ConfigHandler.readConfig();
-        Debug.Log(charaController);
         charaController.positionMinions(minionsData, mapManager.mapDict);
-        //a list of prefab Instantiate()
-        // var minion = new Character(0, 0, mapManager.Tilemap);
-        // charaManager.init(character, mapManager.mapDict);
     }
     
     void LateUpdate() {
-        MouseController.startListen();
+        mouseController.startListen();
     }
 }

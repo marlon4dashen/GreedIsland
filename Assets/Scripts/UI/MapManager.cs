@@ -18,6 +18,7 @@ public class MapManager : MonoBehaviour
     }
     private TilesHolder _tilesHolder;
     private Map _map;
+    private GameEvents events;
     public Map map{ get => _map; }
     public OverlayTile overlayTilePrefab;
     public GameObject overlayContainer;
@@ -35,8 +36,10 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void init(Map gameMap){
+    public void init(Map gameMap, GameEvents currentEvents){
         _map = gameMap;
+        events = currentEvents;
+        events.OnSelectCharacter += ShowSelectedTile;
         int width = _map.Width;
         int height = _map.Height;
 
@@ -75,6 +78,14 @@ public class MapManager : MonoBehaviour
             overlayTile.gridLocation = tileLocation;
             mapDict.Add(tilePos2d, overlayTile);
         }
+    }
+
+    public void ShowSelectedTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+    }
+
+    public void HideSelectedTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
 
 }

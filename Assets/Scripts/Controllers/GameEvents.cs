@@ -26,4 +26,21 @@ public class GameEvents : MonoBehaviour
             OnCursorExit();
         }
     }
+
+    public event Action<OverlayTile> OnSelectCharacter;
+
+    public void SelectCharacter(OverlayTile tile) {
+        if (OnSelectCharacter != null) {
+            OnSelectCharacter(tile);
+        }
+    }
+
+    public event Action<OverlayTile, OverlayTile> OnCharacterMove;
+
+    public void CharacterMove(OverlayTile start, OverlayTile des) {
+        if (OnCharacterMove != null) {
+            OnCharacterMove(start, des);
+        }
+    }
+
 }

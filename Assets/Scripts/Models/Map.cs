@@ -13,15 +13,10 @@ public class Map
     private Dictionary<int, List<Node>> tileArray; //int = z; 
     private HashSet<Node> overlayLocations;
     private System.Random rnd;
-    private Vector3Int origin;
-    private Vector3 cellSize;
 
-    public Map(int width, int height, Tilemap tilemap) {
+    public Map(int width, int height) {
         overlayLocations = new HashSet<Node>();
         rnd = new System.Random();
-
-        origin = tilemap.origin;
-        cellSize = tilemap.cellSize;
 
         this.width = width;
         this.height = height;
