@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour
     public Elf ElfPrefab;
     public GraveDigger graveDiggerPrefab;
     public Character currentMinion;
+    private Animator currAnimator;
     public bool isMoving;
 
     public GameObject minionContainer;
@@ -22,8 +23,9 @@ public class CharacterController : MonoBehaviour
     private List<OverlayTile> path;
 
     private static CharacterController _instance;
+    private Dictionary<Character, Animator> animatorList;
+    private Vector2 lastTile;
 
-    private Rigidbody2D rb;
 
 
     public static CharacterController Instance {
@@ -43,12 +45,9 @@ public class CharacterController : MonoBehaviour
         pathFinder = new PathFinder();
         path = new List<OverlayTile>();
         isMoving = false;
+        animatorList = new Dictionary<Character, Animator>();
     }
 
-    private void Start() {
-        rb = GetComponent<Rigidbody2D>();
-
-    }
 
     public void init(GameEvents currentEvents){
         _charaManager = CharacterManager.Instance;
@@ -72,6 +71,9 @@ public class CharacterController : MonoBehaviour
             minionLocations.Add(init_tile, minion);
             minion.currentTile = init_tile;
             minionList.Add(minion);
+            currAnimator = minion.GetComponent<Animator>();
+            currAnimator.enabled = false;
+            animatorList.Add(minion, currAnimator);
         }
         _charaManager.init(minionList);
 
@@ -87,25 +89,37 @@ public class CharacterController : MonoBehaviour
             path = pathFinder.FindPath(start, destination);
         }
         isMoving = true;
+        animatorList[currentMinion].enabled = true;
+        animatorList[currentMinion].SetBool("isMoving", true);
         minionLocations.Remove(currentMinion.currentTile);
         minionLocations.Add(destination, currentMinion);
+
     }
 
     public void continuePath() {
 
         //move minion along the path toward next available tile
+
         if (_charaManager.MoveToTile(currentMinion, path[0])){
             var tile = path[0];
             path.RemoveAt(0);
+            currentMinion.transform.localScale = getMinionFacing(currentMinion.currentTile.gridLocation,tile.gridLocation);
             currentMinion.currentTile = tile;
         }
         if (path.Count == 0) {
             isMoving = false;
+
+            animatorList[currentMinion].SetBool("isMoving", false);
+            animatorList[currentMinion].enabled = false;
             currentMinion = null;
         }
     }
 
-
+    private Vector3 getMinionFacing(Vector3Int start, Vector3Int next) {
+        int deltaX = next.x - start.x;
+        int deltaY = next.y - start.y;
+        return new Vector3(deltaX != 0 ? -1 * Math.Sign(deltaX) : Math.Sign(deltaY), 1, 1);
+    }
     public bool checkCharacterOnTile(OverlayTile tile) {
         return minionLocations.ContainsKey(tile);
     }

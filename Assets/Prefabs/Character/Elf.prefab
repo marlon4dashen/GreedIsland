@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8485768902189585652}
   - component: {fileID: 6691946331680862022}
   - component: {fileID: 2220487441808132198}
-  - component: {fileID: 8173242512923107652}
+  - component: {fileID: -2400049778103960611}
   m_Layer: 0
   m_Name: Elf
   m_TagString: Player
@@ -218,18 +218,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.27555746, y: 0.13038573}
   m_EdgeRadius: 0
---- !u!111 &8173242512923107652
-Animation:
+--- !u!95 &-2400049778103960611
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5437557980644810922}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 591c2b9c5d799431b8e767221c509de6, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d402bf9497a23ff4eb9d4894f904c2ad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

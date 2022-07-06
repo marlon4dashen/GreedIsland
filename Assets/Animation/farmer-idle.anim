@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: elf-idle
+  m_Name: farmer-idle
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,14 +20,12 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: efec01223d49d44b0811b6addfc37b95, type: 3}
-    - time: 0.1
-      value: {fileID: 21300000, guid: 1a94805d4c213416a9ce0cd6e69c630a, type: 3}
+      value: {fileID: 21300000, guid: 9cd640689bcb43247aec613267278596, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 10
+  m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -40,7 +38,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.2
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
