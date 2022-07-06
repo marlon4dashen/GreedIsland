@@ -21,6 +21,7 @@ public class CharacterController : MonoBehaviour
     private GameEvents events;
     private PathFinder pathFinder;
     private List<OverlayTile> path;
+    private List<OverlayTile> moveRange;
 
     private static CharacterController _instance;
     private Dictionary<Character, Animator> animatorList;
@@ -33,6 +34,7 @@ public class CharacterController : MonoBehaviour
     }
 
     private CharacterManager _charaManager;
+    private MapManager _mapManager;
 
     private void Awake(){
         _instance = this;
@@ -44,13 +46,15 @@ public class CharacterController : MonoBehaviour
         minionStrToObj.Add("GraveDigger", graveDiggerPrefab);
         pathFinder = new PathFinder();
         path = new List<OverlayTile>();
+        moveRange = new List<OverlayTile>();
         isMoving = false;
         animatorList = new Dictionary<Character, Animator>();
     }
 
 
-    public void init(GameEvents currentEvents){
+    public void init(GameEvents currentEvents, MapManager mapManager){
         _charaManager = CharacterManager.Instance;
+        _mapManager = mapManager;
         events = currentEvents;
         events.OnCharacterMove += moveMinion;
         events.OnSelectCharacter += selectMinion;
@@ -81,12 +85,34 @@ public class CharacterController : MonoBehaviour
 
     public void selectMinion(OverlayTile selected){
         currentMinion = minionLocations[selected];
+
+        // if the selected minion has steps left in current round, paint range tiles
+        Debug.Log(currentMinion.moveLeft);
+        if (currentMinion.moveLeft > 0) {
+            moveRange = RangeFinder.GetTilesInRange(selected, currentMinion.moveRange);
+            _mapManager.PaintRangeTile(moveRange);
+        }
     }
 
     public void moveMinion(OverlayTile destination){
         var start = currentMinion.currentTile;
-        if (path.Count == 0){
-            path = pathFinder.FindPath(start, destination);
+        //check if destination in range
+        if (moveRange.Count <= 0 || !moveRange.Contains(destination)) {
+            Debug.Log("Can't reach there");
+            return;
+        }
+
+        //Find path
+        path = pathFinder.FindPath(start, destination);
+        //update location array
+        if (path.Count > 0){
+            isMoving = true;
+            currentMinion.moveLeft -= 1;
+            minionLocations.Remove(currentMinion.currentTile);
+            minionLocations.Add(destination, currentMinion);
+        } else {
+            //trigger error event
+            Debug.Log("Can't reach there");
         }
         isMoving = true;
         animatorList[currentMinion].enabled = true;
@@ -120,6 +146,11 @@ public class CharacterController : MonoBehaviour
         int deltaY = next.y - start.y;
         return new Vector3(deltaX != 0 ? -1 * Math.Sign(deltaX) : Math.Sign(deltaY), 1, 1);
     }
+
+    public Character getCharacterFromTile(OverlayTile tile){
+        return minionLocations[tile];
+    }
+
     public bool checkCharacterOnTile(OverlayTile tile) {
         return minionLocations.ContainsKey(tile);
     }

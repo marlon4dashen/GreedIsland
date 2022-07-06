@@ -104,6 +104,9 @@ MonoBehaviour:
   moveRange: 3
   hp: 50
   mana: 0
+  moveLeft: 3
+  attackLeft: 1
+  abilityLeft: 1
 --- !u!95 &5928745773143930272
 Animator:
   serializedVersion: 4

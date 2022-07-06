@@ -35,11 +35,11 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action<OverlayTile> OnDeselect;
+    public event Action OnDeselect;
 
-    public void Deselect(OverlayTile tile){
+    public void Deselect(){
         if (OnDeselect != null) {
-            OnDeselect(tile);
+            OnDeselect();
         }
     }
 

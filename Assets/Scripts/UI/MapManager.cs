@@ -42,7 +42,7 @@ public class MapManager : MonoBehaviour
         //add events
         events = currentEvents;
         events.OnSelectCharacter += ShowSelectedTile;
-        events.OnDeselect += HideSelectedTile;
+        events.OnDeselect += DeselectTiles;
         int width = _map.Width;
         int height = _map.Height;
 
@@ -83,12 +83,51 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void ShowSelectedTile(OverlayTile tile){
-        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+    public List<OverlayTile> GetSurroundingTiles(Vector2Int originTile)
+    {
+        var surroundingTiles = new List<OverlayTile>();
+        Vector2Int TileToCheck = new Vector2Int(originTile.x + 1, originTile.y);
+        if (mapDict.ContainsKey(TileToCheck))
+        {
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+                surroundingTiles.Add(mapDict[TileToCheck]);
+        }
+        TileToCheck = new Vector2Int(originTile.x - 1, originTile.y);
+        if (mapDict.ContainsKey(TileToCheck))
+        {
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+                surroundingTiles.Add(mapDict[TileToCheck]);
+        }
+        TileToCheck = new Vector2Int(originTile.x, originTile.y + 1);
+        if (mapDict.ContainsKey(TileToCheck))
+        {
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+                surroundingTiles.Add(mapDict[TileToCheck]);
+        }
+        TileToCheck = new Vector2Int(originTile.x, originTile.y - 1);
+        if (mapDict.ContainsKey(TileToCheck))
+        {
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+                surroundingTiles.Add(mapDict[TileToCheck]);
+        }
+        return surroundingTiles;
     }
 
-    public void HideSelectedTile(OverlayTile tile){
-        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+    public void PaintRangeTile(List<OverlayTile> rangedTiles){
+        Debug.Log(rangedTiles.Count);
+        foreach (var tile in rangedTiles) {
+            tile.GetComponent<SpriteRenderer>().color = new Color(123, 104, 238, 0.8f);
+        }
+    }
+
+    public void DeselectTiles() {
+        foreach (KeyValuePair<Vector2Int, OverlayTile> tile in mapDict){
+            tile.Value.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        }
+    }
+
+    public void ShowSelectedTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
     }
 
 }

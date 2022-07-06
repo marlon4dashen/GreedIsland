@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
         charaController = CharacterController.Instance;
         mouseController = MouseController.Instance;
         gameEvents = GameEvents.current;
-        charaController.init(gameEvents);
+        charaController.init(gameEvents, mapManager);
         mouseController.init(charaController, gameEvents);
         ConfigHandler.init();
         CoordToMapLocation.init(mapManager.Tilemap);

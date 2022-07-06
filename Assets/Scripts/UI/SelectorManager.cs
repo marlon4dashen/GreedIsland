@@ -17,9 +17,7 @@ public class SelectorManager : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int) SortingOrders.Character;
     }
 
-    private void HideSelector(OverlayTile tile) {
+    private void HideSelector() {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-        transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 1, (int) SortingOrders.Character);
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int) SortingOrders.Character;
     }
 }
