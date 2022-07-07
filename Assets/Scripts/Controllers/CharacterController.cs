@@ -89,6 +89,8 @@ public class CharacterController : MonoBehaviour
         // if the selected minion has steps left in current round, paint range tiles
         Debug.Log(currentMinion.moveLeft);
         if (currentMinion.moveLeft > 0) {
+            Debug.Log(currentMinion.moveLeft);
+            Debug.Log(moveRange);
             moveRange = RangeFinder.GetTilesInRange(selected, currentMinion.moveRange);
             _mapManager.PaintRangeTile(moveRange);
         }
@@ -96,6 +98,7 @@ public class CharacterController : MonoBehaviour
 
     public void moveMinion(OverlayTile destination){
         var start = currentMinion.currentTile;
+        
         //check if destination in range
         if (moveRange.Count <= 0 || !moveRange.Contains(destination)) {
             Debug.Log("Can't reach there");
@@ -107,44 +110,35 @@ public class CharacterController : MonoBehaviour
         //update location array
         if (path.Count > 0){
             isMoving = true;
+
             currentMinion.moveLeft -= 1;
             minionLocations.Remove(currentMinion.currentTile);
             minionLocations.Add(destination, currentMinion);
+            // clear the range list if move succeed
+            moveRange = new List<OverlayTile>();
         } else {
             //trigger error event
             Debug.Log("Can't reach there");
         }
-        isMoving = true;
-        animatorList[currentMinion].enabled = true;
         animatorList[currentMinion].SetBool("isMoving", true);
-        minionLocations.Remove(currentMinion.currentTile);
-        minionLocations.Add(destination, currentMinion);
+        animatorList[currentMinion].enabled = true;
 
     }
 
     public void continuePath() {
 
         //move minion along the path toward next available tile
-
         if (_charaManager.MoveToTile(currentMinion, path[0])){
             var tile = path[0];
-            path.RemoveAt(0);
-            currentMinion.transform.localScale = getMinionFacing(currentMinion.currentTile.gridLocation,tile.gridLocation);
+            path.RemoveAt(0); 
             currentMinion.currentTile = tile;
         }
         if (path.Count == 0) {
             isMoving = false;
-
             animatorList[currentMinion].SetBool("isMoving", false);
             animatorList[currentMinion].enabled = false;
             currentMinion = null;
         }
-    }
-
-    private Vector3 getMinionFacing(Vector3Int start, Vector3Int next) {
-        int deltaX = next.x - start.x;
-        int deltaY = next.y - start.y;
-        return new Vector3(deltaX != 0 ? -1 * Math.Sign(deltaX) : Math.Sign(deltaY), 1, 1);
     }
 
     public Character getCharacterFromTile(OverlayTile tile){

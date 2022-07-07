@@ -114,7 +114,6 @@ public class MapManager : MonoBehaviour
     }
 
     public void PaintRangeTile(List<OverlayTile> rangedTiles){
-        Debug.Log(rangedTiles.Count);
         foreach (var tile in rangedTiles) {
             tile.GetComponent<SpriteRenderer>().color = new Color(123, 104, 238, 0.8f);
         }

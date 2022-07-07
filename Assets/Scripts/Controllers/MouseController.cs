@@ -32,7 +32,7 @@ public class MouseController : MonoBehaviour
         var focusedTileHit = GetFocusedOnTile();
         if (focusedTileHit.HasValue){
             OverlayTile currentTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
-            GameEvents.current.CursorEnter(currentTile.transform.position);
+            events.CursorEnter(currentTile.transform.position);
             if (Input.GetMouseButtonDown(0) && !charaController.isMoving){
                 if (selectedTile == null && charaController.checkCharacterOnTile(currentTile)) {
                     selectedTile = currentTile;
