@@ -34,17 +34,30 @@ public class MouseController : MonoBehaviour
             OverlayTile currentTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
             events.CursorEnter(currentTile.transform.position);
             if (Input.GetMouseButtonDown(0) && !charaController.isMoving){
-                if (selectedTile == null && charaController.checkCharacterOnTile(currentTile)) {
+                if (selectedTile == null) {
+                    // if (charaController.getCharacterFromTile(currentTile) != null) {
                     selectedTile = currentTile;
                     events.SelectCharacter(selectedTile);
-                } else if (selectedTile != null){
+                    // } 
+                } else {
+                    // a minion is pre-selected
+                    var prevCharacter = charaController.getCharacterFromTile(selectedTile);
 
-                    if (charaController.checkCharacterOnTile(currentTile)) {
-                        // attack or ability or select another minion on your team
+                    var currCharacter = charaController.getCharacterFromTile(currentTile);
+                    if (currCharacter != null) {
+                        
                         // for now only select another minion
-                        events.Deselect();
-                        selectedTile = currentTile;
-                        events.SelectCharacter(selectedTile);
+                        if (charaController.checkSameTeam(prevCharacter, currCharacter)) {
+                            // on the same team
+                            events.Deselect();
+                            selectedTile = currentTile;
+                            events.SelectCharacter(selectedTile);
+                        } else {
+                            // on different team
+                            // attack
+                            events.CharacterAttack(prevCharacter, currCharacter);
+                            // TODO: ability
+                        }
                     } else {
                         // move to a location
                         events.CharacterMove(currentTile);

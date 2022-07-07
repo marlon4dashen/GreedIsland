@@ -58,6 +58,7 @@ public class CharacterController : MonoBehaviour
         events = currentEvents;
         events.OnCharacterMove += moveMinion;
         events.OnSelectCharacter += selectMinion;
+        events.OnCharacterAttack += minionAttack;
     }
 
 
@@ -84,6 +85,10 @@ public class CharacterController : MonoBehaviour
     }
 
     public void selectMinion(OverlayTile selected){
+
+        if (!minionLocations.ContainsKey(selected)) {
+            return;
+        }
         currentMinion = minionLocations[selected];
 
         // if the selected minion has steps left in current round, paint range tiles
@@ -141,12 +146,16 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public Character getCharacterFromTile(OverlayTile tile){
-        return minionLocations[tile];
+    public void minionAttack(Character atker, Character atkee) {
+        // check 
     }
 
-    public bool checkCharacterOnTile(OverlayTile tile) {
-        return minionLocations.ContainsKey(tile);
+    public bool checkSameTeam(Character minion1, Character minion2){
+        return minion1.team == minion2.team;
+    }
+
+    public Character getCharacterFromTile(OverlayTile tile){
+        return minionLocations.ContainsKey(tile) ? minionLocations[tile] : null;
     }
 
 }

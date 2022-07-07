@@ -8,16 +8,19 @@ public abstract class Character : MonoBehaviour
 {
 
     public OverlayTile currentTile;
+    public Team team;
     public int atkDamage;
     public int atkRange;
     public int moveRange;
 
+    //changable fields
     public int hp;
     public int mana;
 
     public int moveLeft;
     public int attackLeft;
     public int abilityLeft;
+
 
     public void resetMoves() {
         this.moveLeft = 1;
