@@ -99,12 +99,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
+  team: 2
   atkDamage: 0
   atkRange: 0
-  moveRange: 5
+  moveRange: 10
   hp: 0
   mana: 0
-  moveLeft: 3
+  moveLeft: 10
   attackLeft: 1
   abilityLeft: 1
 --- !u!95 &-996511034341676214

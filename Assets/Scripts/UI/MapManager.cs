@@ -113,10 +113,16 @@ public class MapManager : MonoBehaviour
         return surroundingTiles;
     }
 
-    public void PaintRangeTile(List<OverlayTile> rangedTiles){
-        foreach (var tile in rangedTiles) {
-            tile.GetComponent<SpriteRenderer>().color = new Color(123, 104, 238, 0.8f);
-        }
+    public void PaintRangeTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.45f, 0.31f, 0.8f);
+    }
+
+    public void PaintCharacterTile(OverlayTile tile) {
+        tile.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0, 0, 0.8f);
+    }
+
+    public void PaintAttackRangeTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(0, 0.2f, 0.8f, 0.8f);
     }
 
     public void DeselectTiles() {

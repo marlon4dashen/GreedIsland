@@ -35,10 +35,10 @@ public class MouseController : MonoBehaviour
             events.CursorEnter(currentTile.transform.position);
             if (Input.GetMouseButtonDown(0) && !charaController.isMoving){
                 if (selectedTile == null) {
-                    // if (charaController.getCharacterFromTile(currentTile) != null) {
-                    selectedTile = currentTile;
-                    events.SelectCharacter(selectedTile);
-                    // } 
+                    if (charaController.getCharacterFromTile(currentTile) != null) {
+                        selectedTile = currentTile;
+                        events.SelectCharacter(selectedTile);
+                    } 
                 } else {
                     // a minion is pre-selected
                     var prevCharacter = charaController.getCharacterFromTile(selectedTile);
@@ -55,7 +55,17 @@ public class MouseController : MonoBehaviour
                         } else {
                             // on different team
                             // attack
-                            events.CharacterAttack(prevCharacter, currCharacter);
+                            // check if atkee in atker atk range
+                            if (charaController.checkInAttackRange(prevCharacter, currCharacter)) {
+                                //if in, attack
+                                events.CharacterAttack(prevCharacter, currCharacter);
+                            }
+                            // } else if (moveRange.Contains(atkee)) {
+                            //     // not in attack range but
+
+                            // } else {
+                            //     Debug.Log("Not in attack range");
+                            // }
                             // TODO: ability
                         }
                     } else {

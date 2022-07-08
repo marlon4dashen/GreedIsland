@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 
 public class RangeFinder
 {
-    public static List<OverlayTile> GetTilesInRange(OverlayTile tile, int range)
+    public static List<OverlayTile> GetTilesInMoveRange(OverlayTile tile, int range)
     {
         var startingTile = tile;
         var inRangeTiles = new List<OverlayTile>();
@@ -26,5 +27,10 @@ public class RangeFinder
             stepCount++;
         }
         return inRangeTiles.Distinct().ToList();
+    }
+
+    //get all tiles within attack range
+    public static List<OverlayTile> GetTilesInAttackRange(OverlayTile tile, int range)
+    {
     }
 }

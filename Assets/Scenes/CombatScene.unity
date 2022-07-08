@@ -1899,7 +1899,6 @@ MonoBehaviour:
   ElfPrefab: {fileID: 9110813403077827485, guid: 4733c128895d34b3f915976a862df484, type: 3}
   graveDiggerPrefab: {fileID: 7709814872143453292, guid: 80cc2a6e0d36fd241afffa98d3559c59, type: 3}
   currentMinion: {fileID: 0}
-  currAnimator: {fileID: 0}
   isMoving: 0
   minionContainer: {fileID: 1410931624}
 --- !u!4 &1392227016

@@ -11,11 +11,11 @@ public class CharacterManager : MonoBehaviour
         get => _instance;
     }
 
-    private int speed;
+    public int speed;
 
     private void Awake(){
         _instance = this;
-        speed = 1;
+        speed = 4;
     }
 
     public void init(List<Character> characters){

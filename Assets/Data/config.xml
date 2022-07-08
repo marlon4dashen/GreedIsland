@@ -5,9 +5,29 @@
         <y>0</y>
     </minion>
     <minion>
+        <name>Elf</name>
+        <x>12</x>
+        <y>5</y>
+    </minion>
+    <minion>
+        <name>Elf</name>
+        <x>7</x>
+        <y>1</y>
+    </minion>
+    <minion>
         <name>Farmer</name>
         <x>8</x>
-        <y>12</y>
+        <y>14</y>
+    </minion>
+    <minion>
+        <name>Farmer</name>
+        <x>2</x>
+        <y>14</y>
+    </minion>
+    <minion>
+        <name>Farmer</name>
+        <x>2</x>
+        <y>13</y>
     </minion>
     <minion>
         <name>GraveDigger</name>

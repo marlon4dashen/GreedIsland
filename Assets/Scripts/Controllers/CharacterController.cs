@@ -20,12 +20,13 @@ public class CharacterController : MonoBehaviour
     private Dictionary<string, Character> minionStrToObj;
     private GameEvents events;
     private PathFinder pathFinder;
+
+    //state variables
     private List<OverlayTile> path;
     private List<OverlayTile> moveRange;
 
     private static CharacterController _instance;
     private Dictionary<Character, Animator> animatorList;
-    private Vector2 lastTile;
 
 
 
@@ -96,8 +97,17 @@ public class CharacterController : MonoBehaviour
         if (currentMinion.moveLeft > 0) {
             Debug.Log(currentMinion.moveLeft);
             Debug.Log(moveRange);
-            moveRange = RangeFinder.GetTilesInRange(selected, currentMinion.moveRange);
-            _mapManager.PaintRangeTile(moveRange);
+            moveRange = RangeFinder.GetTilesInMoveRange(selected, currentMinion.moveRange);
+
+            foreach (OverlayTile tile in moveRange) {
+                if (minionLocations.ContainsKey(tile)) {
+                    if (!checkSameTeam(currentMinion, minionLocations[tile])) 
+                        _mapManager.PaintCharacterTile(tile);
+                } else {
+                    _mapManager.PaintRangeTile(tile);
+                }
+            }
+
         }
     }
 
@@ -119,14 +129,15 @@ public class CharacterController : MonoBehaviour
             currentMinion.moveLeft -= 1;
             minionLocations.Remove(currentMinion.currentTile);
             minionLocations.Add(destination, currentMinion);
+            animatorList[currentMinion].SetBool("isMoving", true);
+            animatorList[currentMinion].enabled = true;
             // clear the range list if move succeed
             moveRange = new List<OverlayTile>();
         } else {
             //trigger error event
             Debug.Log("Can't reach there");
         }
-        animatorList[currentMinion].SetBool("isMoving", true);
-        animatorList[currentMinion].enabled = true;
+
 
     }
 
@@ -147,8 +158,22 @@ public class CharacterController : MonoBehaviour
     }
 
     public void minionAttack(Character atker, Character atkee) {
-        // check 
+
     }
+
+    public void clearAllStates() {
+        moveRange = new List<OverlayTile>();
+
+    }
+
+    public bool checkInAttackRange(Character c1, Character c2) {
+
+        var x_diff = c1.currentTile.gridLocation.x - c2.currentTile.gridLocation.x;
+        var y_diff = c1.currentTile.gridLocation.y - c2.currentTile.gridLocation.y;
+
+        return Math.Sqrt(x_diff * x_diff + y_diff * y_diff) <= (double) c1.atkRange;
+    }
+
 
     public bool checkSameTeam(Character minion1, Character minion2){
         return minion1.team == minion2.team;
