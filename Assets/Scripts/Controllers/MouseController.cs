@@ -82,7 +82,7 @@ public class MouseController : MonoBehaviour
 
         if (charaController.isMoving) {
             charaController.continuePath();
-        }
+        } 
     }
 
     public void clearSelected(){

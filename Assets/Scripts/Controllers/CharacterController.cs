@@ -10,7 +10,6 @@ public class CharacterController : MonoBehaviour
     public Farmer farmerPrefab;
     public Elf ElfPrefab;
     public GraveDigger graveDiggerPrefab;
-    public Character currentMinion;
     private Animator currAnimator;
     public bool isMoving;
 
@@ -22,8 +21,10 @@ public class CharacterController : MonoBehaviour
     private PathFinder pathFinder;
 
     //state variables
+    public Character currentMinion;
     private List<OverlayTile> path;
     private List<OverlayTile> moveRange;
+    private List<OverlayTile> attackRange;
 
     private static CharacterController _instance;
     private Dictionary<Character, Animator> animatorList;
@@ -107,6 +108,10 @@ public class CharacterController : MonoBehaviour
                     _mapManager.PaintRangeTile(tile);
                 }
             }
+            attackRange = RangeFinder.GetTilesInAttackRange(selected, currentMinion.atkRange);
+            foreach (OverlayTile tile in attackRange) {
+                _mapManager.PaintAttackRangeTile(tile);
+            }
 
         }
     }
@@ -153,7 +158,7 @@ public class CharacterController : MonoBehaviour
             isMoving = false;
             animatorList[currentMinion].SetBool("isMoving", false);
             animatorList[currentMinion].enabled = false;
-            currentMinion = null;
+            clearAllStates();
         }
     }
 
@@ -163,15 +168,13 @@ public class CharacterController : MonoBehaviour
 
     public void clearAllStates() {
         moveRange = new List<OverlayTile>();
-
+        attackRange = new List<OverlayTile>();
+        currentMinion = null;
     }
 
     public bool checkInAttackRange(Character c1, Character c2) {
 
-        var x_diff = c1.currentTile.gridLocation.x - c2.currentTile.gridLocation.x;
-        var y_diff = c1.currentTile.gridLocation.y - c2.currentTile.gridLocation.y;
-
-        return Math.Sqrt(x_diff * x_diff + y_diff * y_diff) <= (double) c1.atkRange;
+        return RangeFinder.checkInRange(c1.currentTile, c2.currentTile, c1.atkRange);
     }
 
 
