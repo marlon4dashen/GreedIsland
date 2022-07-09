@@ -7,7 +7,7 @@ public class GraveDigger : Character
     private void Awake() {
         atkDamage = 10;
         atkRange = 1;
-        moveRange = 5;
+        moveRange = 10;
         hp = 30;
         mana = 0;
     }

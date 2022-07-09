@@ -110,7 +110,7 @@ MonoBehaviour:
   hp: 0
   mana: 0
   moveLeft: 10
-  attackLeft: 1
+  attackLeft: 5
   abilityLeft: 1
 --- !u!20 &4176582903142601983
 Camera:

@@ -14,8 +14,6 @@ public class CharacterController : MonoBehaviour
     public bool isMoving;
 
     public GameObject minionContainer;
-    private List<Character> minionList;
-    private Dictionary<OverlayTile, Character> minionLocations;
     private Dictionary<string, Character> minionStrToObj;
     private GameEvents events;
     private PathFinder pathFinder;
@@ -25,6 +23,9 @@ public class CharacterController : MonoBehaviour
     private List<OverlayTile> path;
     private List<OverlayTile> moveRange;
     private List<OverlayTile> attackRange;
+
+    private List<Character> minionList;
+    private Dictionary<OverlayTile, Character> minionLocations;
 
     private static CharacterController _instance;
     private Dictionary<Character, Animator> animatorList;
@@ -75,8 +76,10 @@ public class CharacterController : MonoBehaviour
             var minionPrefab = minionStrToObj[name];
             var init_tile = mapDict[loc];
             var minion = Instantiate(minionPrefab, minionContainer.transform);
-            minionLocations.Add(init_tile, minion);
+            
             minion.currentTile = init_tile;
+            // minionLocations.Add(init_tile, minion);
+            updateMinionLocation(minion, init_tile);
             minionList.Add(minion);
             currAnimator = minion.GetComponent<Animator>();
             currAnimator.enabled = false;
@@ -96,10 +99,7 @@ public class CharacterController : MonoBehaviour
         // if the selected minion has steps left in current round, paint range tiles
         Debug.Log(currentMinion.moveLeft);
         if (currentMinion.moveLeft > 0) {
-            Debug.Log(currentMinion.moveLeft);
-            Debug.Log(moveRange);
             moveRange = RangeFinder.GetTilesInMoveRange(selected, currentMinion.moveRange);
-
             foreach (OverlayTile tile in moveRange) {
                 if (minionLocations.ContainsKey(tile)) {
                     if (!checkSameTeam(currentMinion, minionLocations[tile])) 
@@ -126,14 +126,11 @@ public class CharacterController : MonoBehaviour
         }
 
         //Find path
-        path = pathFinder.FindPath(start, destination);
+        path = pathFinder.FindPath(start, destination, minionLocations);
         //update location array
         if (path.Count > 0){
             isMoving = true;
-
             currentMinion.moveLeft -= 1;
-            minionLocations.Remove(currentMinion.currentTile);
-            minionLocations.Add(destination, currentMinion);
             animatorList[currentMinion].SetBool("isMoving", true);
             animatorList[currentMinion].enabled = true;
             // clear the range list if move succeed
@@ -152,7 +149,7 @@ public class CharacterController : MonoBehaviour
         if (_charaManager.MoveToTile(currentMinion, path[0])){
             var tile = path[0];
             path.RemoveAt(0); 
-            currentMinion.currentTile = tile;
+            updateMinionLocation(currentMinion, tile);
         }
         if (path.Count == 0) {
             isMoving = false;
@@ -162,8 +159,33 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void minionAttack(Character atker, Character atkee) {
+    public void updateMinionLocation(Character minion, OverlayTile des){
+        if (minionLocations.ContainsKey(minion.currentTile)){
+            minionLocations.Remove(minion.currentTile);
+            minion.currentTile.isBlocked = false;
+        }
+        if (des != null) {
+            minionLocations.Add(des, minion);
+            minion.currentTile = des;
+            minion.currentTile.isBlocked = true;
+        }
+    }
 
+    public void minionAttack(Character atker, Character atkee) {
+        if (atker.attackLeft > 0) {
+            atker.attack(atkee);
+            if (atkee.isDead()) {
+                // dead
+                removeMinion(atkee);
+            }
+        }
+        clearAllStates();
+    }
+
+    public void removeMinion(Character minion) {
+        minionList.Remove(minion);
+        updateMinionLocation(minion, null);
+        minion.removeCharacter();
     }
 
     public void clearAllStates() {
@@ -173,7 +195,6 @@ public class CharacterController : MonoBehaviour
     }
 
     public bool checkInAttackRange(Character c1, Character c2) {
-
         return RangeFinder.checkInRange(c1.currentTile, c2.currentTile, c1.atkRange);
     }
 

@@ -6,7 +6,7 @@ using System;
 
 public class PathFinder
 {
-    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end)
+    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end, Dictionary<OverlayTile, Character> minionLocations)
     {
         List<OverlayTile> tilesToCheck = new List<OverlayTile>();
         List<OverlayTile> checkedTiles = new List<OverlayTile>();
@@ -30,8 +30,9 @@ public class PathFinder
             // neighbourTiles.ForEach(tile => Debug.Log(tile.gridLocation));
             foreach (var neighbour in neighbourTiles)
             {
-                if(neighbour.isBlocked || checkedTiles.Contains(neighbour) || Mathf.Abs(currentTile.gridLocation.z - neighbour.gridLocation.z) > 1)
+                if(neighbour.isBlocked || checkedTiles.Contains(neighbour) || Mathf.Abs(currentTile.gridLocation.z - neighbour.gridLocation.z) > 1 || minionLocations.ContainsKey(neighbour))
                 {
+                    // avoid other 
                     continue;
                 }
                 neighbour.G = GetManhattenDistance(start, neighbour);

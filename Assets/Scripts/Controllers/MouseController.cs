@@ -59,13 +59,12 @@ public class MouseController : MonoBehaviour
                             if (charaController.checkInAttackRange(prevCharacter, currCharacter)) {
                                 //if in, attack
                                 events.CharacterAttack(prevCharacter, currCharacter);
-                            }
+                                events.Deselect();
                             // } else if (moveRange.Contains(atkee)) {
-                            //     // not in attack range but
-
-                            // } else {
-                            //     Debug.Log("Not in attack range");
-                            // }
+                            //     // not in attack range but can move to nearby then attack
+                            } else {
+                                Debug.Log("Not in attack range");
+                            }
                             // TODO: ability
                         }
                     } else {

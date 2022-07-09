@@ -106,7 +106,7 @@ MonoBehaviour:
   hp: 0
   mana: 0
   moveLeft: 10
-  attackLeft: 1
+  attackLeft: 3
   abilityLeft: 1
 --- !u!95 &-996511034341676214
 Animator:

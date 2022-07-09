@@ -20,7 +20,12 @@ public class RangeFinder
             var surroundingTiles = new List<OverlayTile>();
             foreach (var item in tilesForPreviousStep)
             {
-                surroundingTiles.AddRange(MapManager.Instance.GetSurroundingTiles(new Vector2Int(item.gridLocation.x, item.gridLocation.y), true)); // with height bc can't jump two tiles
+                var tiles = MapManager.Instance.GetSurroundingTiles(new Vector2Int(item.gridLocation.x, item.gridLocation.y), true); // with height bc can't jump two tiles
+                foreach (OverlayTile curTile in tiles){
+                    if (!curTile.isBlocked){
+                        surroundingTiles.Add(curTile);
+                    }
+                }
             }
             inRangeTiles.AddRange(surroundingTiles);
             tilesForPreviousStep = surroundingTiles.Distinct().ToList();
@@ -61,13 +66,7 @@ public class RangeFinder
     public static bool checkInRange(OverlayTile t1, OverlayTile t2, int range) {
 
         var x_diff = t1.gridLocation.x - t2.gridLocation.x;
-        var y_diff = t1.gridLocation.y - t2.gridLocation.y;
-
-        if (Math.Sqrt(x_diff * x_diff + y_diff * y_diff) <= (double) range) {
-            Debug.Log(Math.Sqrt(x_diff * x_diff + y_diff * y_diff));
-        }
-        
-
+        var y_diff = t1.gridLocation.y - t2.gridLocation.y;        
         return (x_diff * x_diff + y_diff * y_diff) <= range * range;
     }
 
