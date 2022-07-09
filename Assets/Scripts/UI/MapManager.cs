@@ -83,40 +83,47 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public List<OverlayTile> GetSurroundingTiles(Vector2Int originTile)
+    public List<OverlayTile> GetSurroundingTiles(Vector2Int originTile, bool withHeight)
     {
         var surroundingTiles = new List<OverlayTile>();
+        int zValue = withHeight ? 1 : 10;
         Vector2Int TileToCheck = new Vector2Int(originTile.x + 1, originTile.y);
         if (mapDict.ContainsKey(TileToCheck))
         {
-            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= zValue)
                 surroundingTiles.Add(mapDict[TileToCheck]);
         }
         TileToCheck = new Vector2Int(originTile.x - 1, originTile.y);
         if (mapDict.ContainsKey(TileToCheck))
         {
-            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= zValue)
                 surroundingTiles.Add(mapDict[TileToCheck]);
         }
         TileToCheck = new Vector2Int(originTile.x, originTile.y + 1);
         if (mapDict.ContainsKey(TileToCheck))
         {
-            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= zValue)
                 surroundingTiles.Add(mapDict[TileToCheck]);
         }
         TileToCheck = new Vector2Int(originTile.x, originTile.y - 1);
         if (mapDict.ContainsKey(TileToCheck))
         {
-            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= 1)
+            if (Mathf.Abs(mapDict[TileToCheck].transform.position.z - mapDict[originTile].transform.position.z) <= zValue)
                 surroundingTiles.Add(mapDict[TileToCheck]);
         }
         return surroundingTiles;
     }
 
-    public void PaintRangeTile(List<OverlayTile> rangedTiles){
-        foreach (var tile in rangedTiles) {
-            tile.GetComponent<SpriteRenderer>().color = new Color(123, 104, 238, 0.8f);
-        }
+    public void PaintRangeTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.45f, 0.31f, 0.8f);
+    }
+
+    public void PaintCharacterTile(OverlayTile tile) {
+        tile.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0, 0, 0.8f);
+    }
+
+    public void PaintAttackRangeTile(OverlayTile tile){
+        tile.GetComponent<SpriteRenderer>().color = new Color(0, 0.2f, 0.8f, 0.8f);
     }
 
     public void DeselectTiles() {
