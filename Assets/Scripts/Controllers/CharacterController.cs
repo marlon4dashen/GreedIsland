@@ -135,6 +135,7 @@ public class CharacterController : MonoBehaviour
             animatorList[currentMinion].enabled = true;
             // clear the range list if move succeed
             moveRange = new List<OverlayTile>();
+            StartCoroutine(movement());
         } else {
             //trigger error event
             Debug.Log("Can't reach there");
@@ -143,20 +144,19 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void continuePath() {
-
-        //move minion along the path toward next available tile
-        if (_charaManager.MoveToTile(currentMinion, path[0])){
-            var tile = path[0];
-            path.RemoveAt(0); 
-            updateMinionLocation(currentMinion, tile);
+    IEnumerator movement() {
+        while (path.Count > 0) {
+            if (_charaManager.MoveToTile(currentMinion, path[0])){
+                var tile = path[0];
+                path.RemoveAt(0); 
+                updateMinionLocation(currentMinion, tile);
+            }
+            yield return null;
         }
-        if (path.Count == 0) {
-            isMoving = false;
-            animatorList[currentMinion].SetBool("isMoving", false);
-            animatorList[currentMinion].enabled = false;
-            clearAllStates();
-        }
+        isMoving = false;
+        animatorList[currentMinion].SetBool("isMoving", false);
+        animatorList[currentMinion].enabled = false;
+        clearAllStates();
     }
 
     public void updateMinionLocation(Character minion, OverlayTile des){
@@ -205,6 +205,27 @@ public class CharacterController : MonoBehaviour
 
     public Character getCharacterFromTile(OverlayTile tile){
         return minionLocations.ContainsKey(tile) ? minionLocations[tile] : null;
+    }
+
+    public Team? checkStatus(){
+
+        bool hasBlue = false;
+        bool hasRed = false;
+        foreach (var minion in minionList) {
+            if (minion.team == Team.Blue)
+                hasBlue = true;
+            else
+                hasRed = true;
+        }
+
+        if (!hasBlue){
+            //red won
+            return Team.Red;
+        } else if (!hasRed){
+            return Team.Blue;
+        } 
+
+        return null;
     }
 
 }

@@ -15,6 +15,8 @@ public class MouseController : MonoBehaviour
     private OverlayTile selectedTile;
     private GameEvents events;
 
+    private Team currentTeam;
+
     private void Awake(){
         _instance = this;
     }
@@ -26,7 +28,15 @@ public class MouseController : MonoBehaviour
         events.OnDeselect += clearSelected;
     }
 
-    // Update is called once per frame
+
+    public void onTurn(Team team){
+        if (currentTeam == null || currentTeam != team){
+            currentTeam = team;
+            Debug.Log("It's " + currentTeam + " turn");
+        }
+        startListen();
+    }
+
     public void startListen()
     {
         var focusedTileHit = GetFocusedOnTile();
@@ -74,20 +84,38 @@ public class MouseController : MonoBehaviour
                     }
                 }
             }
+            //test switch round
+            if (Input.GetMouseButtonDown(1)) {
+                events.StateChange(currentTeam == Team.Blue ? GameState.ENEMYTURN : GameState.PLAYERTURN);
+            }
 
         }else{
-            GameEvents.current.CursorExit();
+            events.CursorExit();
         }
-
-        if (charaController.isMoving) {
-            charaController.continuePath();
-        } 
     }
 
     public void clearSelected(){
         selectedTile = null;
     }
     
+    public void checkBattleStatus() {
+        var won = charaController.checkStatus();
+
+        if (won.HasValue){
+            switch (won)
+            {
+                case Team.Red:
+                    events.StateChange(GameState.REDWON);
+                    break;
+                case Team.Blue:
+                    events.StateChange(GameState.BLUEWON);
+                    break;
+                default:
+                    Debug.Log("Something is broken");
+                    break;
+            }
+        }
+    }
 
     public RaycastHit2D? GetFocusedOnTile(){
 

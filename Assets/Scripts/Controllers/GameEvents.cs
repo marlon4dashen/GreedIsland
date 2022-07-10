@@ -59,4 +59,12 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+    public event Action<GameState> OnStateChange;
+
+    public void StateChange(GameState newState) {
+        if (OnStateChange != null) {
+            OnStateChange(newState);
+        }
+    }
+
 }
