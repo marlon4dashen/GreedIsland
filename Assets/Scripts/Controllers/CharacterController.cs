@@ -76,7 +76,7 @@ public class CharacterController : MonoBehaviour
             var minionPrefab = minionStrToObj[name];
             var init_tile = mapDict[loc];
             var minion = Instantiate(minionPrefab, minionContainer.transform);
-            
+
             minion.currentTile = init_tile;
             // minionLocations.Add(init_tile, minion);
             updateMinionLocation(minion, init_tile);
@@ -102,7 +102,7 @@ public class CharacterController : MonoBehaviour
             moveRange = RangeFinder.GetTilesInMoveRange(selected, currentMinion.moveRange);
             foreach (OverlayTile tile in moveRange) {
                 if (minionLocations.ContainsKey(tile)) {
-                    if (!checkSameTeam(currentMinion, minionLocations[tile])) 
+                    if (!checkSameTeam(currentMinion, minionLocations[tile]))
                         _mapManager.PaintCharacterTile(tile);
                 } else {
                     _mapManager.PaintRangeTile(tile);
@@ -118,7 +118,7 @@ public class CharacterController : MonoBehaviour
 
     public void moveMinion(OverlayTile destination){
         var start = currentMinion.currentTile;
-        
+
         //check if destination in range
         if (moveRange.Count <= 0 || !moveRange.Contains(destination)) {
             Debug.Log("Can't reach there");
@@ -148,13 +148,12 @@ public class CharacterController : MonoBehaviour
         //move minion along the path toward next available tile
         if (_charaManager.MoveToTile(currentMinion, path[0])){
             var tile = path[0];
-            path.RemoveAt(0); 
+            path.RemoveAt(0);
             updateMinionLocation(currentMinion, tile);
         }
         if (path.Count == 0) {
             isMoving = false;
             animatorList[currentMinion].SetBool("isMoving", false);
-            animatorList[currentMinion].enabled = false;
             clearAllStates();
         }
     }
@@ -172,13 +171,20 @@ public class CharacterController : MonoBehaviour
     }
 
     public void minionAttack(Character atker, Character atkee) {
+
         if (atker.attackLeft > 0) {
+            animatorList[atker].ResetTrigger("Attack");
+            animatorList[atker].SetTrigger("Attack");
+            atker.transform.localScale = _charaManager.getMinionFacing(atker.currentTile.gridLocation,atkee.currentTile.gridLocation);
+
+
             atker.attack(atkee);
             if (atkee.isDead()) {
                 // dead
                 removeMinion(atkee);
             }
         }
+
         clearAllStates();
     }
 

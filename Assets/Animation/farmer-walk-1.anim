@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: farmer-idle
+  m_Name: farmer-walk-1
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,17 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: c5ea3811ffa424b19b9c28e8688483fc, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: c87d6f55d8a6645ce8a48bb02a46d44a, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: c5ea3811ffa424b19b9c28e8688483fc, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: f85eac05576384cdc9269f19a340e00f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 5
+  m_SampleRate: 20
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -41,6 +47,9 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: 21300000, guid: c5ea3811ffa424b19b9c28e8688483fc, type: 3}
+    - {fileID: 21300000, guid: c87d6f55d8a6645ce8a48bb02a46d44a, type: 3}
+    - {fileID: 21300000, guid: c5ea3811ffa424b19b9c28e8688483fc, type: 3}
+    - {fileID: 21300000, guid: f85eac05576384cdc9269f19a340e00f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
