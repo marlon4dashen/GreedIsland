@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour
 
     // public abstract void ability();
 
-    public void resetMoves() {
+    public void refreshMoves() {
         this.moveLeft = 1;
         this.attackLeft = 1;
         this.abilityLeft = 1;

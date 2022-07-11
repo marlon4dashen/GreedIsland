@@ -101,9 +101,4 @@ public class GameController : MonoBehaviour
     private void modifyState(GameState newState) {
         state = newState;
     }
-
-
-    // void LateUpdate() {
-    //     mouseController.startListen();
-    // }
 }

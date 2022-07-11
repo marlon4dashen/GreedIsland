@@ -203,8 +203,16 @@ public class CharacterController : MonoBehaviour
         return minion1.team == minion2.team;
     }
 
-    public Character getCharacterFromTile(OverlayTile tile){
+    public Character? getCharacterFromTile(OverlayTile tile){
         return minionLocations.ContainsKey(tile) ? minionLocations[tile] : null;
+    }
+
+    public void refreshSteps(Team team) {
+        foreach (var minion in minionList) {
+            if (minion.team == team) {
+                minion.refreshMoves();
+            } 
+        }
     }
 
     public Team? checkStatus(){
