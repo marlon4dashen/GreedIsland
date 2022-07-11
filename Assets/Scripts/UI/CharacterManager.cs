@@ -44,7 +44,7 @@ public class CharacterManager : MonoBehaviour
         minion.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
     }
 
-    private Vector3 getMinionFacing(Vector3Int start, Vector3Int next) {
+    public Vector3 getMinionFacing(Vector3Int start, Vector3Int next) {
         int deltaX = next.x - start.x;
         int deltaY = next.y - start.y;
         return new Vector3(deltaX != 0 ? -1 * Math.Sign(deltaX) : Math.Sign(deltaY), 1, 1);
