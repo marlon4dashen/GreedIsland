@@ -31,6 +31,6 @@ public class CameraManager : MonoBehaviour
             _camera.transform.position.y - modifier,
             _camera.transform.position.z
         );
-        _camera.orthographicSize = Mathf.Pow(CameraSizeModifier, (width / 3.5f)) * _camera.orthographicSize;
+        _camera.orthographicSize = Mathf.Pow(CameraSizeModifier, (width / 2.0f)) * _camera.orthographicSize;
     }
 }
