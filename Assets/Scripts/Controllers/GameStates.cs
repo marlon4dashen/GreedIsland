@@ -1,0 +1,3 @@
+public enum GameState {
+    START, PLAYERTURN, ENEMYTURN, BLUEWON, REDWON
+}
