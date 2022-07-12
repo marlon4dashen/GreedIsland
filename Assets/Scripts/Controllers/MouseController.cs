@@ -16,6 +16,7 @@ public class MouseController : MonoBehaviour
     private GameEvents events;
 
     private Team currentTeam;
+    public Mode mode;
 
     private void Awake(){
         _instance = this;
@@ -26,6 +27,8 @@ public class MouseController : MonoBehaviour
         charaController = characterController;
         events = currentEvent;
         events.OnDeselect += clearSelected;
+        events.OnSwitchTeam += refreshMove;
+        mode = Mode.Move;
     }
 
 
@@ -33,7 +36,7 @@ public class MouseController : MonoBehaviour
         if (currentTeam == null || currentTeam != team){
             //just switched team
             currentTeam = team;
-            charaController.refreshSteps(team);
+            events.SwitchTeam(team);
             Debug.Log("It's " + currentTeam + " turn");
         }
         startListen();
@@ -173,8 +176,13 @@ public class MouseController : MonoBehaviour
         }
     }
 
+    public void refreshMove(Team team) {
+        charaController.refreshSteps(team);
+    }
+
     public void clearSelected(){
         selectedTile = null;
+        mode = Mode.Move;
     }
     
     public void checkBattleStatus() {
@@ -194,6 +202,14 @@ public class MouseController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void onAttackButton(){
+        mode = Mode.Attack;
+    }
+
+    public void onMoveButton(){
+        mode = Mode.Move;
     }
 
     public RaycastHit2D? GetFocusedOnTile(){

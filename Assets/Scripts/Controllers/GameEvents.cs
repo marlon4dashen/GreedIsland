@@ -67,4 +67,13 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+
+    public event Action<Team> OnSwitchTeam;
+
+    public void SwitchTeam(Team team){
+        if (OnSwitchTeam != null){
+            OnSwitchTeam(team);
+        }
+    }
+
 }
