@@ -56,7 +56,7 @@ public class MapManager : MonoBehaviour
         _gameZoneTilemap.ClearAllTiles();
         _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder = (int) SortingOrders.Base;
         var nodeMap = _map.nodes;
-        for (var z = nodeMap.Count - 1; z >= 0; z--){
+        for (var z = nodeMap.Count - 2 ; z >= -1; z--){
             var nodelist = nodeMap[z];
             foreach(Node node in nodelist) {
                 _gameZoneTilemap.SetTile(CoordToMapLocation.GetLocOnMap(node.GetPos()), _tilesHolder.GetTileByName(node.Type));

@@ -10,7 +10,7 @@ public class Map
 {
     private int width;
     private int height;
-    private Dictionary<int, List<Node>> tileArray; //int = z; 
+    private Dictionary<int, List<Node>> tileArray; //int = z;
     private HashSet<Node> overlayLocations;
     private System.Random rnd;
 
@@ -24,9 +24,30 @@ public class Map
         var water = generateWater();
         tileArray.Add(0, water.ToList());
         var baseArr = new List<Node>();
+        var bottomArr = new List<Node>();
+        for ( var i = -2; i <= height + 1; i ++) {
+            for ( var j = -2; j <= width + 1; j ++){
+
+                var newBottom = new Node(i, j, -1, "under"); //Base lnd renders
+                if ( i == -2 && ( j > width/5 && j <= 3*width/5))
+                {
+                    bottomArr.Add(new Node(i-1, j, -1, "under"));
+                }else if(j == -2 && ( i > 2*height/5 && i <= 4*height/5))
+                {
+                    bottomArr.Add(new Node(i, j-1, -1, "under"));
+                }else if((i == -2 || i == height+1) && (j == -2 || j == width+1))
+                {
+                    bottomArr.Add(new Node(i-2, j-2, -1, "under"));
+                    continue;
+
+                }
+                bottomArr.Add(newBottom);
+            }
+        }
+        tileArray.Add(-1, bottomArr);
         for ( var i = 0; i < height; i ++) {
             for ( var j = 0; j < width; j ++){
-                var newLand = new Node(i, j, 1, "land"); //Base land renders second
+                var newLand = new Node(i, j, 1, "Land"); //Base land renders secondsecond
                 if (!water.Contains(newLand)) {
                     baseArr.Add(newLand);
                     overlayLocations.Add(newLand);
@@ -44,7 +65,7 @@ public class Map
         var dirs = new Vector2Int[4] {
             new Vector2Int(0, 1), new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, -1)
         };
-        
+
         var heads = new HashSet<Node>();
         var steps = new HashSet<Node>();
 
@@ -94,7 +115,7 @@ public class Map
 
     private HashSet<Node> generateWater() {
         var set = new HashSet<Node>();
-        
+
 
         //the pond is of size waterX * waterY
 
