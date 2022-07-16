@@ -27,11 +27,11 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action<OverlayTile> OnSelectCharacter;
+    public event Action<Character, Mode> OnSelectCharacter;
 
-    public void SelectCharacter(OverlayTile tile) {
+    public void SelectCharacter(Character minion, Mode mode) {
         if (OnSelectCharacter != null) {
-            OnSelectCharacter(tile);
+            OnSelectCharacter(minion, mode);
         }
     }
 
@@ -51,11 +51,11 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action<Character, Character> OnCharacterAttack;
+    public event Action<Character> OnCharacterAttack;
 
-    public void CharacterAttack(Character attacker, Character attackee) {
+    public void CharacterAttack(Character attackee) {
         if (OnCharacterAttack != null) {
-            OnCharacterAttack(attacker, attackee);
+            OnCharacterAttack(attackee);
         }
     }
 

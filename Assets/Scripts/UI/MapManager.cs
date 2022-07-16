@@ -41,7 +41,6 @@ public class MapManager : MonoBehaviour
 
         //add events
         events = currentEvents;
-        events.OnSelectCharacter += ShowSelectedTile;
         events.OnDeselect += DeselectTiles;
         int width = _map.Width;
         int height = _map.Height;
@@ -130,10 +129,6 @@ public class MapManager : MonoBehaviour
         foreach (KeyValuePair<Vector2Int, OverlayTile> tile in mapDict){
             tile.Value.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         }
-    }
-
-    public void ShowSelectedTile(OverlayTile tile){
-        tile.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
     }
 
 }

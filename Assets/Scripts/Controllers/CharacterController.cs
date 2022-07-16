@@ -62,6 +62,7 @@ public class CharacterController : MonoBehaviour
         events.OnCharacterMove += moveMinion;
         events.OnSelectCharacter += selectMinion;
         events.OnCharacterAttack += minionAttack;
+        events.OnSwitchTeam += clearAllStates;
     }
 
 
@@ -89,17 +90,29 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void selectMinion(OverlayTile selected){
+    public void selectMinion(Character selected, Mode mode){
 
-        if (!minionLocations.ContainsKey(selected)) {
+        if (!minionList.Contains(selected)) {
             return;
         }
-        currentMinion = minionLocations[selected];
+        currentMinion = selected;
 
         // if the selected minion has steps left in current round, paint range tiles
-        Debug.Log(currentMinion.moveLeft);
+        switch(mode) {
+            case Mode.Attack:
+                displayAttackRange(selected);
+                break;
+            case Mode.Move:
+                displayMoveRange(selected);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void displayMoveRange(Character currentMinion){
         if (currentMinion.moveLeft > 0) {
-            moveRange = RangeFinder.GetTilesInMoveRange(selected, currentMinion.moveRange);
+            moveRange = RangeFinder.GetTilesInMoveRange(currentMinion.currentTile, currentMinion.moveRange);
             foreach (OverlayTile tile in moveRange) {
                 if (minionLocations.ContainsKey(tile)) {
                     if (!checkSameTeam(currentMinion, minionLocations[tile]))
@@ -108,11 +121,15 @@ public class CharacterController : MonoBehaviour
                     _mapManager.PaintRangeTile(tile);
                 }
             }
-            attackRange = RangeFinder.GetTilesInAttackRange(selected, currentMinion.atkRange);
+        }
+    }
+
+    private void displayAttackRange(Character currentMinion) {
+        if (currentMinion.attackLeft > 0){
+            attackRange = RangeFinder.GetTilesInAttackRange(currentMinion.currentTile, currentMinion.atkRange);
             foreach (OverlayTile tile in attackRange) {
                 _mapManager.PaintAttackRangeTile(tile);
             }
-
         }
     }
 
@@ -170,16 +187,14 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void minionAttack(Character atker, Character atkee) {
+    public void minionAttack(Character atkee) {
 
-        if (atker.attackLeft > 0) {
-            animatorList[atker].enabled = true;
-            animatorList[atker].ResetTrigger("Attack");
-            animatorList[atker].SetTrigger("Attack");
-            atker.transform.localScale = _charaManager.getMinionFacing(atker.currentTile.gridLocation,atkee.currentTile.gridLocation);
-
-
-            atker.attack(atkee);
+        if (currentMinion.attackLeft > 0) {
+            animatorList[currentMinion].enabled = true;
+            animatorList[currentMinion].ResetTrigger("Attack");
+            animatorList[currentMinion].SetTrigger("Attack");
+            currentMinion.transform.localScale = _charaManager.getMinionFacing(currentMinion.currentTile.gridLocation,atkee.currentTile.gridLocation);
+            currentMinion.attack(atkee);
             if (atkee.isDead()) {
                 // dead
                 animatorList[atker].enabled = false;
@@ -196,7 +211,7 @@ public class CharacterController : MonoBehaviour
         minion.removeCharacter();
     }
 
-    public void clearAllStates() {
+    public void clearAllStates(Team team = Team.Blue) {
         moveRange = new List<OverlayTile>();
         attackRange = new List<OverlayTile>();
         currentMinion = null;
@@ -211,7 +226,7 @@ public class CharacterController : MonoBehaviour
         return minion1.team == minion2.team;
     }
 
-    public Character? getCharacterFromTile(OverlayTile tile){
+    public Character getCharacterFromTile(OverlayTile tile){
         return minionLocations.ContainsKey(tile) ? minionLocations[tile] : null;
     }
 
