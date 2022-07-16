@@ -54,6 +54,7 @@ public class Map
                 }
             }
         }
+        Debug.Log(baseArr.Count);
         tileArray.Add(1, baseArr);
         generateTerrain(water);
     }

@@ -12,14 +12,16 @@ public class CoordToMapLocation
     public static void init(Tilemap tilemap){
         cellSize = tilemap.cellSize;
         origin = tilemap.origin;
+        Debug.Log(cellSize);
+        Debug.Log(origin);
     }
 
     public static int GetXOnMap(int x){
-        return (int) (cellSize.x * x + (float) origin.x);
+        return (int) (Math.Ceiling(cellSize.x) * x + origin.x);
     }
 
     public static int GetYOnMap(int y){
-        return y * (int) (Math.Ceiling(cellSize.y)) + origin.y;
+        return (int) (y *  (Math.Ceiling(cellSize.y)) + origin.y);
     }
 
     public static Vector2Int GetLocOnMap2d(Vector2Int pos){

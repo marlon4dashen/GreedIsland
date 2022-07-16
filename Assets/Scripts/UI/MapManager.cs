@@ -48,21 +48,27 @@ public class MapManager : MonoBehaviour
 
         DrawInitialMap(width, height);
         DrawOverlay();
-        // Debug.Log(mapDict.Count);
     }
     private void DrawInitialMap(int width, int height){
         var origin =  _gameZoneTilemap.origin;
         var cellSize =  _gameZoneTilemap.cellSize;
+        Debug.Log(_gameZoneTilemap);
         _gameZoneTilemap.ClearAllTiles();
         _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder = (int) SortingOrders.Base;
         var nodeMap = _map.nodes;
         for (var z = nodeMap.Count - 2 ; z >= -1; z--){
             var nodelist = nodeMap[z];
             foreach(Node node in nodelist) {
+                if(z==1){
+                    Debug.Log(CoordToMapLocation.GetLocOnMap(node.GetPos()));
+                    // Debug.Log(node.GetPos());
+
+                }
                 _gameZoneTilemap.SetTile(CoordToMapLocation.GetLocOnMap(node.GetPos()), _tilesHolder.GetTileByName(node.Type));
+
             }
         }
-        _gameZoneTilemap.CompressBounds();
+        // _gameZoneTilemap.CompressBounds();
     }
 
     private void DrawOverlay(){
@@ -70,12 +76,15 @@ public class MapManager : MonoBehaviour
         var cellSize =  _gameZoneTilemap.cellSize;
         var overlays = _map.overlays;
         var origin =  _gameZoneTilemap.origin;
+        Debug.Log(_gameZoneTilemap);
+
+
 
         foreach (var node in overlays) {
             var tileLocation = CoordToMapLocation.GetLocOnMap(node.GetPos());
             var cellWorldPosition = _gameZoneTilemap.GetCellCenterWorld(tileLocation);
             var overlayTile = Instantiate(overlayTilePrefab, overlayContainer.transform);
-            overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y / 2, cellWorldPosition.z + 1);
+            overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y + cellSize.y/2, cellWorldPosition.z + 1);
             overlayTile.GetComponent<SpriteRenderer>().sortingOrder = _gameZoneTilemap.GetComponent<TilemapRenderer>().sortingOrder;
             var tilePos2d = CoordToMapLocation.GetLocOnMap2d(node.GetPos2d());
             overlayTile.gridLocation = tileLocation;
