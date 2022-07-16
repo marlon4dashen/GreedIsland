@@ -62,6 +62,7 @@ public class CharacterController : MonoBehaviour
         events.OnCharacterMove += moveMinion;
         events.OnSelectCharacter += selectMinion;
         events.OnCharacterAttack += minionAttack;
+        events.OnSwitchTeam += clearAllStates;
     }
 
 
@@ -211,7 +212,7 @@ public class CharacterController : MonoBehaviour
         minion.removeCharacter();
     }
 
-    public void clearAllStates() {
+    public void clearAllStates(Team team = Team.Blue) {
         moveRange = new List<OverlayTile>();
         attackRange = new List<OverlayTile>();
         currentMinion = null;
