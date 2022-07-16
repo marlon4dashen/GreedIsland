@@ -197,7 +197,6 @@ public class CharacterController : MonoBehaviour
             currentMinion.attack(atkee);
             if (atkee.isDead()) {
                 // dead
-
                 removeMinion(atkee);
             }
         }
