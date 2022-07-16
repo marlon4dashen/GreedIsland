@@ -197,7 +197,7 @@ public class CharacterController : MonoBehaviour
             currentMinion.attack(atkee);
             if (atkee.isDead()) {
                 // dead
-                animatorList[atker].enabled = false;
+                animatorList[currentMinion].enabled = false;
                 removeMinion(atkee);
             }
         }
