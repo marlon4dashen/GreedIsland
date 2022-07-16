@@ -148,14 +148,13 @@ public class CharacterController : MonoBehaviour
         while (path.Count > 0) {
             if (_charaManager.MoveToTile(currentMinion, path[0])){
                 var tile = path[0];
-                path.RemoveAt(0); 
+                path.RemoveAt(0);
                 updateMinionLocation(currentMinion, tile);
             }
             yield return null;
         }
         isMoving = false;
         animatorList[currentMinion].SetBool("isMoving", false);
-        animatorList[currentMinion].enabled = false;
         clearAllStates();
     }
 
@@ -174,6 +173,7 @@ public class CharacterController : MonoBehaviour
     public void minionAttack(Character atker, Character atkee) {
 
         if (atker.attackLeft > 0) {
+            animatorList[atker].enabled = true;
             animatorList[atker].ResetTrigger("Attack");
             animatorList[atker].SetTrigger("Attack");
             atker.transform.localScale = _charaManager.getMinionFacing(atker.currentTile.gridLocation,atkee.currentTile.gridLocation);
@@ -182,6 +182,7 @@ public class CharacterController : MonoBehaviour
             atker.attack(atkee);
             if (atkee.isDead()) {
                 // dead
+                animatorList[atker].enabled = false;
                 removeMinion(atkee);
             }
         }
@@ -218,7 +219,7 @@ public class CharacterController : MonoBehaviour
         foreach (var minion in minionList) {
             if (minion.team == team) {
                 minion.refreshMoves();
-            } 
+            }
         }
     }
 
@@ -238,7 +239,7 @@ public class CharacterController : MonoBehaviour
             return Team.Red;
         } else if (!hasRed){
             return Team.Blue;
-        } 
+        }
 
         return null;
     }
