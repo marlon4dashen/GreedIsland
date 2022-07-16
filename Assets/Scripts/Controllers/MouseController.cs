@@ -11,8 +11,9 @@ public class MouseController : MonoBehaviour
     public static MouseController Instance {
         get => _instance;
     }
-    private CharacterController charaController;
     private OverlayTile selectedTile;
+    private CharacterController charaController;
+    private Character currMinion;
     private GameEvents events;
 
     private Team currentTeam;
@@ -41,81 +42,44 @@ public class MouseController : MonoBehaviour
         }
         startListen();
         // var currentTile = cursorListener();
-        // select(currentTile);
+        // if (currentTile && !charaController.isMoving) {
+        //    if (!currMinion) {
+        //        select(currentTile);
+        //    } else {
+               
+        //    }
+        // } 
     }
 
-    // public void cursorListener(){
-    //     var focusedTileHit = GetFocusedOnTile();
-    //     if (focusedTileHit.HasValue){
-    //         OverlayTile currentTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
-    //         events.CursorEnter(currentTile.transform.position);
-    //     }else{
-    //         events.CursorExit();
-    //     }
-    // }
+    public OverlayTile cursorListener(){
+        var focusedTileHit = GetFocusedOnTile();
+        if (focusedTileHit.HasValue){
+            OverlayTile currentTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayTile>();
+            events.CursorEnter(currentTile.transform.position);
+            return currentTile;
+        }
+        events.CursorExit();
+        return null;
+    }
 
-    // public void select(){
+    public void select(OverlayTile tile){
 
-    //     if (Input.GetMouseButtonDown(0) && !charaController.isMoving && selectedTile == null){
-    //         var minion = charaController.getCharacterFromTile(currentTile);
-    //         if (minion.HasValue) {
+        if (Input.GetMouseButtonDown(0)) {
+            var minion = charaController.getCharacterFromTile(tile);
 
-    //         } else {
-    //             //display map information
-    //             Debug.Log(currentTile.)
-    //         }
-    //         if (charaController.getCharacterFromTile(currentTile) != null) {
-    //             var charaController
-    //             selectedTile = currentTile;
-    //             events.SelectCharacter(selectedTile);
-    //         } 
-    //     }
-
-    //     if (Input.GetMouseButtonDown(0) && !charaController.isMoving){
-    //         if (selectedTile == null) {
-    //             if (charaController.getCharacterFromTile(currentTile) != null) {
-    //                 selectedTile = currentTile;
-    //                 events.SelectCharacter(selectedTile);
-    //             } 
-    //         } else {
-    //             // a minion is pre-selected
-    //             var prevCharacter = charaController.getCharacterFromTile(selectedTile);
-    //             var currCharacter = charaController.getCharacterFromTile(currentTile);
-    //             if (currCharacter != null) {
-                    
-    //                 // for now only select another minion
-    //                 if (charaController.checkSameTeam(prevCharacter, currCharacter)) {
-    //                     // on the same team
-    //                     events.Deselect();
-    //                     selectedTile = currentTile;
-    //                     events.SelectCharacter(selectedTile);
-    //                 } else {
-    //                     // on different team
-    //                     // attack
-    //                     // check if atkee in atker atk range
-    //                     if (charaController.checkInAttackRange(prevCharacter, currCharacter)) {
-    //                         //if in, attack
-    //                         events.CharacterAttack(prevCharacter, currCharacter);
-    //                         events.Deselect();
-    //                     // } else if (moveRange.Contains(atkee)) {
-    //                     //     // not in attack range but can move to nearby then attack
-    //                     } else {
-    //                         Debug.Log("Not in attack range");
-    //                     }
-    //                     // TODO: ability
-    //                 }
-    //             } else {
-    //                 // move to a location
-    //                 events.CharacterMove(currentTile);
-    //                 events.Deselect();
-    //             }
-    //         }
-    //     }
-    //     //test switch round
-    //     if (Input.GetMouseButtonDown(1)) {
-    //         events.StateChange(currentTeam == Team.Blue ? GameState.ENEMYTURN : GameState.PLAYERTURN);
-    //     }
-    // }
+            if (minion) {
+                if (minion.team == currentTeam) {
+                    //selected
+                    currMinion = minion;
+                    events.SelectCharacter(selectedTile);
+                } else {
+                    //display selected enemy info
+                }
+            } 
+        } else {
+            // display selected grid info
+        }
+    }
 
     public void startListen()
     {
@@ -205,10 +169,12 @@ public class MouseController : MonoBehaviour
     }
 
     public void onAttackButton(){
+        Debug.Log("In attack");
         mode = Mode.Attack;
     }
 
     public void onMoveButton(){
+        Debug.Log("In move");
         mode = Mode.Move;
     }
 
